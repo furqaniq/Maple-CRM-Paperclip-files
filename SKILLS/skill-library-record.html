@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paperclip Skill Library</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --ground:#f4f6f8;
+    --surface:#ffffff;
+    --surface-2:#eef2f5;
+    --ink:#16202b;
+    --muted:#5c6b7a;
+    --faint:#8493a2;
+    --rule:#dbe2e8;
+    --rule-strong:#c3ced8;
+    --accent:#2e5f83;
+    --accent-soft:#e4edf4;
+    --interlock:#9d4038;
+    --interlock-soft:#f6e7e5;
+    --good:#2f6b4f;
+    --serif:"Spectral",Georgia,"Times New Roman",serif;
+    --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --measure:68ch;
+    --pad:clamp(20px,5vw,64px);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#131a21;
+      --surface:#1a232c;
+      --surface-2:#212c37;
+      --ink:#e4eaf0;
+      --muted:#9aa9b8;
+      --faint:#758493;
+      --rule:#2a3945;
+      --rule-strong:#3a4b59;
+      --accent:#7ab0d4;
+      --accent-soft:#1d3140;
+      --interlock:#dd9086;
+      --interlock-soft:#3a2320;
+      --good:#6fbf95;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#131a21;
+    --surface:#1a232c;
+    --surface-2:#212c37;
+    --ink:#e4eaf0;
+    --muted:#9aa9b8;
+    --faint:#758493;
+    --rule:#2a3945;
+    --rule-strong:#3a4b59;
+    --accent:#7ab0d4;
+    --accent-soft:#1d3140;
+    --interlock:#dd9086;
+    --interlock-soft:#3a2320;
+    --good:#6fbf95;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:var(--pad) var(--pad) 96px}
+  .col{max-width:var(--measure)}
+
+  /* ---- masthead ---- */
+  .mast{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:22px;
+    margin-bottom:38px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(30px,5vw,46px);
+    line-height:1.1;
+    letter-spacing:-.015em;
+    margin:0 0 12px;
+    text-wrap:balance;
+  }
+  .standfirst{
+    font-family:var(--serif);
+    font-size:clamp(17px,2.1vw,19.5px);
+    line-height:1.55;
+    color:var(--muted);
+    margin:0;
+    max-width:60ch;
+  }
+
+  /* ---- key figures ---- */
+  .figures{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin:0 0 46px;
+  }
+  .fig{background:var(--surface);padding:16px 18px}
+  .fig b{
+    display:block;
+    font-family:var(--serif);
+    font-size:27px;
+    font-weight:600;
+    line-height:1.15;
+    font-variant-numeric:tabular-nums;
+  }
+  .fig span{
+    display:block;
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:3px;
+    line-height:1.35;
+  }
+
+  /* ---- sections ---- */
+  section{margin:0 0 54px}
+  h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:25px;
+    line-height:1.2;
+    letter-spacing:-.01em;
+    margin:0 0 6px;
+    display:flex;
+    gap:14px;
+    align-items:baseline;
+  }
+  h2 .num{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent);
+    letter-spacing:.06em;
+    flex:none;
+  }
+  .lede{color:var(--muted);margin:0 0 24px;max-width:var(--measure)}
+  h3{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:.02em;
+    margin:30px 0 10px;
+  }
+  p{margin:0 0 15px;max-width:var(--measure)}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  em{font-style:italic}
+  code{
+    font-family:var(--mono);
+    font-size:.86em;
+    background:var(--surface-2);
+    padding:1px 5px;
+    border-radius:2px;
+  }
+
+  ul.notes{margin:0 0 15px;padding:0;list-style:none;max-width:var(--measure)}
+  ul.notes li{
+    padding:0 0 0 20px;
+    margin-bottom:9px;
+    position:relative;
+  }
+  ul.notes li::before{
+    content:"";
+    position:absolute;
+    left:2px;top:.66em;
+    width:6px;height:1px;
+    background:var(--rule-strong);
+  }
+
+  /* ---- specimen ---- */
+  .specimen{
+    border:1px solid var(--rule);
+    background:var(--surface);
+    font-family:var(--mono);
+    font-size:12.5px;
+    line-height:1.75;
+    overflow-x:auto;
+    margin:0 0 10px;
+  }
+  .specimen table{border-collapse:collapse;width:100%;min-width:660px}
+  .specimen td{vertical-align:top;padding:0}
+  .specimen td.code{padding:2px 16px;white-space:pre;color:var(--ink)}
+  .specimen td.ann{
+    padding:2px 16px 2px 14px;
+    width:38%;
+    border-left:1px solid var(--rule);
+    background:var(--surface-2);
+    font-family:var(--sans);
+    font-size:12.5px;
+    line-height:1.45;
+    color:var(--muted);
+    white-space:normal;
+  }
+  .specimen tr.spacer td{height:8px}
+  .k{color:var(--accent)}
+  .h{color:var(--ink);font-weight:600}
+  .il{color:var(--interlock);font-weight:600}
+  .cm{color:var(--faint)}
+  figcaption{
+    font-size:13px;
+    color:var(--faint);
+    margin-bottom:26px;
+    max-width:var(--measure);
+  }
+
+  /* ---- roster ---- */
+  .roster{
+    display:grid;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin:0 0 10px;
+  }
+  .rrow{
+    background:var(--surface);
+    display:grid;
+    grid-template-columns:minmax(88px,110px) 46px 1fr;
+    gap:14px;
+    align-items:center;
+    padding:11px 16px;
+  }
+  .rname{font-weight:600;font-size:14px}
+  .rcount{
+    font-family:var(--mono);
+    font-size:14px;
+    font-weight:600;
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+    color:var(--accent);
+  }
+  .rbarwrap{display:flex;align-items:center;gap:12px;min-width:0}
+  .rbar{height:9px;background:var(--accent);opacity:.72;flex:none}
+  .ragents{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    white-space:nowrap;
+    overflow-x:auto;
+    min-width:0;
+  }
+
+  /* ---- findings ---- */
+  .find{
+    border:1px solid var(--rule);
+    background:var(--surface);
+    margin:0 0 1px;
+    padding:14px 18px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:6px 14px;
+    align-items:baseline;
+  }
+  .findset{display:flex;flex-direction:column;gap:0;margin:0 0 10px}
+  .findset .find{margin-bottom:-1px}
+  .tag{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    padding:3px 7px;
+    border:1px solid var(--rule-strong);
+    color:var(--muted);
+    white-space:nowrap;
+    align-self:start;
+  }
+  .tag.sev{border-color:var(--interlock);color:var(--interlock);background:var(--interlock-soft)}
+  .ftitle{font-weight:600;font-size:15px;line-height:1.4;margin:0}
+  .fbody{grid-column:2;margin:0;font-size:14.5px;color:var(--muted);line-height:1.55;max-width:64ch}
+  .fbody + .fbody{margin-top:6px}
+
+  /* ---- callout ---- */
+  .callout{
+    border-left:3px solid var(--interlock);
+    background:var(--interlock-soft);
+    padding:16px 20px;
+    margin:0 0 22px;
+    max-width:var(--measure);
+  }
+  .callout p:last-child{margin-bottom:0}
+  .callout .tag{background:transparent}
+
+  .quiet{
+    border-left:3px solid var(--rule-strong);
+    padding:2px 0 2px 18px;
+    margin:0 0 22px;
+    max-width:var(--measure);
+    color:var(--muted);
+    font-family:var(--serif);
+    font-size:16.5px;
+    line-height:1.55;
+  }
+  .quiet p:last-child{margin-bottom:0}
+
+  /* ---- stage list ---- */
+  .stages{
+    display:grid;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin:0 0 12px;
+  }
+  .stage{
+    background:var(--surface);
+    padding:13px 18px;
+    display:grid;
+    grid-template-columns:26px 1fr;
+    gap:14px;
+  }
+  .stage .sn{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent);
+    padding-top:2px;
+  }
+  .stage h4{margin:0 0 3px;font-size:14.5px;font-weight:600}
+  .stage p{margin:0;font-size:14px;color:var(--muted);line-height:1.5;max-width:62ch}
+
+  footer{
+    border-top:1px solid var(--rule);
+    margin-top:8px;
+    padding-top:20px;
+    font-size:13.5px;
+    color:var(--faint);
+    max-width:var(--measure);
+  }
+  hr.div{border:0;border-top:1px solid var(--rule);margin:0 0 40px}
+
+  @media (max-width:640px){
+    body{font-size:16px}
+    .rrow{grid-template-columns:1fr 40px;gap:6px 10px}
+    .rbarwrap{grid-column:1/-1}
+    .find{grid-template-columns:1fr}
+    .fbody{grid-column:1}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">MapleConnect · internal codename Paperclip</p>
+    <h1>Paperclip Skill Library</h1>
+    <p class="standfirst">How 187 skill files for a 24-agent mortgage CRM were specified, generated, validated, and then audited for the conflicts that only appear when the files are read against each other.</p>
+  </header>
+
+  <div class="figures">
+    <div class="fig"><b>187</b><span>SKILL.md files</span></div>
+    <div class="fig"><b>24</b><span>agents, 5 divisions</span></div>
+    <div class="fig"><b>1,749</b><span>hard-rule clauses</span></div>
+    <div class="fig"><b>12</b><span>interlocks</span></div>
+    <div class="fig"><b>126k</b><span>words</span></div>
+    <div class="fig"><b>60</b><span>audit fixes applied</span></div>
+  </div>
+
+  <section>
+    <h2><span class="num">01</span>What a skill is here</h2>
+    <p class="lede">The handbook says what each agent <em>is</em>. A skill says what it actually does at one moment, and what it must never do at that moment.</p>
+
+    <p><code>AGENT_HANDBOOK_24.md</code> is the source of truth for the roster: 24 agents across Command, Revenue, Marketing, Operations and People, composing into 18 sellable hires. It gives each agent a job description, responsibilities, an autonomy level, KPIs, and — for eleven of them — a <strong>hard boundary</strong>, a named action the agent must never take regardless of instruction.</p>
+
+    <p>Skills decompose that into operable units. One skill is one triggerable behaviour: <code>quiet-hours-clock</code>, <code>two-slot-closer</code>, <code>money-movement-interlock</code>. The catalogue in <code>agent-skills-24.html</code> names all 187 and flags which carry an interlock.</p>
+
+    <p>The design constraint that shapes everything below: <strong>a skill has to be safe to read alone.</strong> An agent invoking one skill may never see the other six. So every skill restates its agent's absolute rules in full rather than referring to them — the redundancy is deliberate, and it is why the files total 126,000 words.</p>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">02</span>The authoring contract</h2>
+    <p class="lede">Every file obeys the same shape, so a reader and a validator can both find any part of it without searching.</p>
+
+    <figure>
+      <div class="specimen">
+        <table>
+          <tr>
+            <td class="code"><span class="cm">Revenue/SCOUT (Intake &amp; Enrichment)/</span>
+<span class="cm">  credit-data-firewall/SKILL.md</span></td>
+            <td class="ann">Path is <em>Division / CODENAME (Title) / skill / SKILL.md</em>. The directory name must equal the frontmatter <code>name</code>.</td>
+          </tr>
+          <tr class="spacer"><td></td><td class="ann"></td></tr>
+          <tr>
+            <td class="code">---
+<span class="k">name</span>: credit-data-firewall
+<span class="k">description</span>: Refuses to pull, request, infer…
+<span class="k">agent</span>: SCOUT
+<span class="k">division</span>: Revenue
+<span class="k">binding</span>: <span class="il">interlock</span>
+---</td>
+            <td class="ann">Five frontmatter keys. <code>binding</code> takes one of three values — <span class="il">interlock</span> for one of the handbook's eleven hard boundaries, <code>mandate</code> for an agent's own absolutes, <code>standard</code> for neither.</td>
+          </tr>
+          <tr class="spacer"><td></td><td class="ann"></td></tr>
+          <tr>
+            <td class="code"><span class="h">## When this fires</span></td>
+            <td class="ann">The triggers. Read by the audit as the inbound half of every handoff.</td>
+          </tr>
+          <tr>
+            <td class="code"><span class="h">## Inputs</span></td>
+            <td class="ann">What it reads, and from which agent's skill by name.</td>
+          </tr>
+          <tr>
+            <td class="code"><span class="h">## Procedure</span></td>
+            <td class="ann">Numbered steps, contiguous, at least three.</td>
+          </tr>
+          <tr>
+            <td class="code"><span class="h">## Output</span></td>
+            <td class="ann">What it emits, and to whom. The outbound half.</td>
+          </tr>
+          <tr>
+            <td class="code"><span class="h">## Hard rules</span>
+
+<span class="cm">**Inherited from SCOUT — these apply to</span>
+<span class="cm">every SCOUT skill, per `AGENTS.md` §5:**</span>
+  - …restated in full…
+
+<span class="cm">**Specific to this skill:**</span>
+  - …</td>
+            <td class="ann">Two labelled groups, always. The inherited block is repeated verbatim across all of that agent's skills — that repetition is what makes a skill safe to read alone.</td>
+          </tr>
+          <tr>
+            <td class="code"><span class="h">## Measured on</span></td>
+            <td class="ann">The KPI line, traced back to the agent's handbook entry.</td>
+          </tr>
+        </table>
+      </div>
+      <figcaption>Anatomy of a skill file, shown on SCOUT's credit-data firewall — one of the twelve interlocks. Six sections, always present, always in this order.</figcaption>
+    </figure>
+
+    <h3>Eleven boundaries, twelve interlocks</h3>
+    <p>Each handbook hard boundary became a dedicated skill whose only job is to hold that line. VOX carries two — immediate human transfer on request, and jurisdictional recording consent — because its single handbook boundary line covers both obligations, and they fail in different ways.</p>
+
+    <h3>One syntax rule worth recording</h3>
+    <p>Agent directory names contain parentheses, which break Markdown link syntax whether escaped or percent-encoded. So same-agent links are relative (<code>[`name`](../name/SKILL.md)</code>) and <strong>cross-agent references are backticked plain text, never linked.</strong> Every cross-agent reference in the set is therefore a token a script can resolve, which is what made the audit mechanisable.</p>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">03</span>The roster as built</h2>
+    <p class="lede">Skill count tracks surface area and regulatory exposure, not seniority.</p>
+
+    <div class="roster">
+      <div class="rrow">
+        <span class="rname">Operations</span>
+        <span class="rcount">55</span>
+        <span class="rbarwrap"><span class="rbar" style="width:100%"></span><span class="ragents">ABACUS 7 · CIRCUIT 8 · LEDGER 7 · TALLY 9 · VANTAGE 8 · VAULT 8 · WARDEN 8</span></span>
+      </div>
+      <div class="rrow">
+        <span class="rname">Revenue</span>
+        <span class="rcount">54</span>
+        <span class="rbarwrap"><span class="rbar" style="width:98%"></span><span class="ragents">ECHO 7 · EMBER 9 · FORGE 8 · PULSE 7 · SCOUT 8 · TEMPO 7 · VOX 8</span></span>
+      </div>
+      <div class="rrow">
+        <span class="rname">Command</span>
+        <span class="rcount">31</span>
+        <span class="rbarwrap"><span class="rbar" style="width:56%"></span><span class="ragents">AEGIS 10 · ATLAS 7 · COMPASS 7 · SAGE 7</span></span>
+      </div>
+      <div class="rrow">
+        <span class="rname">Marketing</span>
+        <span class="rcount">29</span>
+        <span class="rbarwrap"><span class="rbar" style="width:53%"></span><span class="ragents">BEACON 7 · CANVAS 7 · QUILL 8 · RELAY 7</span></span>
+      </div>
+      <div class="rrow">
+        <span class="rname">People</span>
+        <span class="rcount">18</span>
+        <span class="rbarwrap"><span class="rbar" style="width:33%"></span><span class="ragents">HARBOR 9 · HONE 9</span></span>
+      </div>
+    </div>
+    <figcaption>AEGIS carries the most skills of any single agent (10) because it inspects 100% of outbound and cannot be disabled. Bindings across the set: 175 mandate, 12 interlock.</figcaption>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">04</span>How they were written</h2>
+    <p class="lede">Generated from a parsed catalogue against per-agent scaffolds, then validated structurally — never hand-typed one at a time.</p>
+
+    <div class="stages">
+      <div class="stage"><span class="sn">01</span><div>
+        <h4>Parse the catalogue</h4>
+        <p>Extract all 187 name/description pairs and interlock flags from <code>agent-skills-24.html</code> by regex, and reconcile the counts per agent before writing anything.</p>
+      </div></div>
+      <div class="stage"><span class="sn">02</span><div>
+        <h4>Lift the inherited blocks verbatim</h4>
+        <p>Each agent's §5 Hard Rules come from its own <code>AGENTS.md</code>, copied exactly rather than paraphrased, so the restatement in every skill is identical to its source.</p>
+      </div></div>
+      <div class="stage"><span class="sn">03</span><div>
+        <h4>Design the conflicts before writing</h4>
+        <p>Known collisions were resolved <em>at authoring time</em> and written into both sides — ECHO's sixty-second reply against AEGIS quiet hours, EMBER's 21-day guard against TEMPO's no-show recovery, HONE's scoring against VOX's recording consent.</p>
+      </div></div>
+      <div class="stage"><span class="sn">04</span><div>
+        <h4>Emit through a generator</h4>
+        <p>A per-agent scaffold writes the six-section body from a skill dictionary, so section order, heading text and the two-group hard-rules structure cannot drift between files.</p>
+      </div></div>
+      <div class="stage"><span class="sn">05</span><div>
+        <h4>Validate structurally</h4>
+        <p>Directory name equals frontmatter name; six sections present, ordered, non-duplicated; contiguous procedure numbering; both hard-rule markers present exactly once; every relative link resolves; no parentheses in any link target.</p>
+      </div></div>
+    </div>
+
+    <div class="quiet">
+      <p>Every edit after generation ran as a checked script — <code>(path, old, new, expected_count)</code> — printing <code>MISS</code> and skipping rather than writing when a count did not match. Across the audit that discipline caught zero silent failures in 60 applied edits, which is the only reason the counts in this document can be trusted.</p>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">05</span>The audit</h2>
+    <p class="lede">Structural validation proves every file has the right shape. It says nothing about whether two correctly-shaped files contradict each other.</p>
+
+    <p>The audit ran at three levels — within each agent, across agents inside a department, then across all five — followed by a fourth pass that walked complete journeys end to end. Each level used a different instrument, because each finds a different defect.</p>
+
+    <h3>Level 1 · within an agent — 0 findings</h3>
+    <p>All 187 <em>Specific to this skill</em> rule sets were dumped and read against their siblings. No agent contradicted itself. The two that once did — CIRCUIT's builder implying it activates against "backtest is the only activator", LEDGER having no behaviour for a calibration VANTAGE withheld — had been fixed in an earlier pass.</p>
+
+    <h3>Level 2 · within a department — 1 finding</h3>
+    <p>Skills written in the same sitting agree with each other. The single find was ABACUS against WARDEN inside Operations.</p>
+
+    <h3>Level 3 · across departments — 9 findings</h3>
+    <p>This is where conflicts concentrate, and the reason is structural: no one was reading both files at once. Two agents granted themselves exemptions from a clock a third owns. The cost ledger acquired two named owners. Lead-source spend was attributed to an agent that meters tokens.</p>
+
+    <h3>Level 4 · end-to-end path walks — 5 findings</h3>
+    <p>Six real journeys were traced hop by hop — lead to close to retention, stop-signal propagation, content to send, recruit to productive, close to paid, automation build to retirement. At each seam the check is one-sided delivery: does the sender name its receiver, and does the receiver fire on that sender?</p>
+
+    <div class="callout">
+      <p><span class="tag sev">Most serious finding</span></p>
+      <p><strong>Six agents were required to escalate compliance findings to AEGIS, and no AEGIS skill fired on one.</strong> PULSE's disposition pattern, HONE's team gap, HONE's producer conduct pattern, CIRCUIT's proposed field, VANTAGE's geographic finding, HARBOR's candidate-set skew.</p>
+      <p>What made it more than a missing wire: every one of those agents is explicitly <em>forbidden</em> to adjudicate its own finding. HONE detects and never adjudicates; PULSE escalates rather than explaining away; VANTAGE surfaces but never plans the entry. So a fair-lending pattern could be detected, reported, and never determined — sitting open with no owner, the detection on the record and the silence after it on the record too.</p>
+      <p>It was traced to the source: <code>AGENT_HANDBOOK_24.md</code> specifies HONE as escalating to AEGIS, while AEGIS's own eight responsibilities were all outbound inspection and its own scheduled work. The skills had faithfully inherited a one-sided edge from the handbook.</p>
+    </div>
+
+    <h3>Why the ownership sweep is the one that matters</h3>
+    <p>Reading rules against rules finds contradictions. It cannot find an <em>absence</em> — a declared input with no producer, a shared counter with two owners or none, an escalation with no receiver. No amount of reading the rules that exist will surface a rule that does not. That is why the machine traces came first: 68 declared cross-agent producer/consumer edges and 16 declared agent-to-agent deliveries, each checked for its other half.</p>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">06</span>Findings register</h2>
+    <p class="lede">Fifteen conflicts, all fixed on both sides of the edge rather than patched at the consumer.</p>
+
+    <div class="findset">
+      <div class="find">
+        <span class="tag sev">L3</span>
+        <p class="ftitle">Two agents exempted themselves from a clock AEGIS owns</p>
+        <p class="fbody">AEGIS's <code>quiet-hours-clock</code> named the opt-out confirmation as the single exemption. ECHO claimed replies to inbound messages aren't silenced; BEACON claimed a broadcast post has no contact clock. Both are right — neither existed in the authority. Now stated in AEGIS as one carve-out (who spoke first) and one scope limit (no recipient).</p>
+      </div>
+      <div class="find">
+        <span class="tag sev">L3</span>
+        <p class="ftitle">Permanent exit state had a writer, five readers, and no owner</p>
+        <p class="fbody">ECHO wrote exits "to the consent ledger"; AEGIS's <code>consent-ledger</code> never mentioned exits, didn't fire on one, and didn't list it as a state it held. PULSE, EMBER, FORGE, TEMPO and VOX all read it from there.</p>
+      </div>
+      <div class="find">
+        <span class="tag sev">L4</span>
+        <p class="ftitle">Escalation path to AEGIS terminated nowhere</p>
+        <p class="fbody">Six agents escalating; no receiver, no adjudication, no return path. Fixed in the skills and in the handbook. See above.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">The cost ledger had two named owners</p>
+        <p class="fbody">ABACUS's meter declares itself the single cost ledger, but RELAY and BEACON drew cost from "ATLAS's ledger" in five places — an earlier correction that never propagated to Marketing.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">Lead-source spend attributed to an agent that doesn't hold it</p>
+        <p class="fbody">Four skills pointed at ABACUS for per-source and paid-lead spend. ABACUS meters tokens and voice minutes; LEDGER holds spend by channel. HARBOR's cost-per-placement was reading a job-board invoice out of a token meter.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">The frequency cap had two owners and neither named the other</p>
+        <p class="fbody">AEGIS holds the ceiling, RELAY holds the cross-agent touch count. Now split explicitly on both sides, on the pattern already used for the ABACUS/ATLAS budget split.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">The voicemail counter and the touch count ignored each other</p>
+        <p class="fbody">VOX owns one drop per contact per day across all agents; RELAY owns the total touch count. Both now state that two rules apply and neither assumes the other enforces.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">HARBOR asserted a WARDEN acceptance WARDEN never emitted</p>
+        <p class="fbody">HARBOR's onboarding requires catching "a provisioning request WARDEN did not accept". WARDEN's <code>day-one-provisioner</code> had no HARBOR trigger and returned no acceptance.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L2</span>
+        <p class="ftitle">ABACUS needed a dependency list WARDEN only produced after the decision</p>
+        <p class="fbody">ABACUS's downgrade recommendation must carry what a downgrade would break. WARDEN enumerated dependencies on the entitlement change — after the customer already decided.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">A candidate earnings case ran on plan rules that compute nothing unconfirmed</p>
+        <p class="fbody">TALLY: "a plan the producer has not confirmed does not compute anything real." A candidate has confirmed nothing. HARBOR's case now names the published standard plan and states it is never the terms on offer.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L3</span>
+        <p class="ftitle">A transactional carve-out three departments cite as a rule was only a procedure step</p>
+        <p class="fbody">TEMPO, FORGE and VAULT all cite RELAY as naming transactional sends as the ones that never yield. It existed — as step 4, not a hard rule. Promoted rather than added.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L4</span>
+        <p class="ftitle">A spam complaint had no door into the consent ledger</p>
+        <p class="fbody">RELAY's rule says a complaint is a consent signal, not a deliverability statistic. AEGIS's trigger list was keyword, reply, call request, form, or human-relayed request — a carrier feedback-loop complaint is none of those.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L4</span>
+        <p class="ftitle">QUILL and CANVAS escalate refusals to ATLAS, which had no receiver</p>
+        <p class="fbody">Added to <code>signal-router</code>, with a rule that ATLAS routes the named problem to whoever can change the facts and never re-shops the request to a different agent.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L4</span>
+        <p class="ftitle">An EMBER referral was not a lead SCOUT fired on</p>
+        <p class="fbody"><code>source-normalizer</code> fired on "any connected source" — an internally handed-over referral is not one, and it arrives with no consent of its own.</p>
+      </div>
+      <div class="find">
+        <span class="tag">L4</span>
+        <p class="ftitle">WARDEN fired on "a plan change from ABACUS"</p>
+        <p class="fbody">ABACUS's hard rule is that it never changes a plan — it is L1 advisory and the customer authorizes. Retriggered on the authorized change instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">07</span>What the method actually taught</h2>
+
+    <ul class="notes">
+      <li><strong>The serious findings are absences.</strong> Every one of the worst four was something missing, not something wrong. Text-versus-text reading found none of them.</li>
+      <li><strong>Conflicts concentrate at the department boundary.</strong> Zero within an agent, one within a department, fourteen across. Files written together agree; the seam is where nobody was reading both sides.</li>
+      <li><strong>A one-sided edge is the diagnostic shape.</strong> Sender names a receiver that never fires, or a receiver fires on a sender that emits nothing. Both halves declared is the passing condition.</li>
+      <li><strong>Check the convention before calling a defect.</strong> The set declares inbound edges when it means them — AEGIS's ledger names ATLAS's router as its source. That convention is what made six missing declarations a real deviation rather than a modelling assumption.</li>
+      <li><strong>Trace a claim to the source of truth.</strong> The AEGIS gap looked like a drafting slip in the skills until the handbook showed the same asymmetry. Fixing only the skills would have left the defect regenerating.</li>
+      <li><strong>Not every flag is a break.</strong> A gate that fires on all outbound should not enumerate its callers; a broadcast producer should not list its readers. Those were checked individually and left alone.</li>
+    </ul>
+  </section>
+
+  <hr class="div">
+
+  <section>
+    <h2><span class="num">08</span>Open</h2>
+    <ul class="notes">
+      <li><strong>Handbook conformance for the other 23 agents.</strong> One agent's skills have been checked against its handbook entry, and that check found a real defect on the first try. The remaining 23 are unaudited against the source of truth — and it is the one check whose misses are invisible to every other check.</li>
+      <li><strong>The 18 hire compositions.</strong> A hire such as "The ISA" composes SCOUT, PULSE, ECHO and TEMPO into one sellable unit. Whether each composition has an unbroken end-to-end process is a level above where this audit worked.</li>
+      <li><strong>Stale roster counts in the HTML.</strong> <code>agent-roster.html</code> says AEGIS is "the reason the other nineteen can be trusted" and tests "against the other nineteen". The handbook says twenty-three. Predates this work; likely present in sibling files too.</li>
+      <li><strong>Nine validator warnings, deliberately unfixed.</strong> Five Command skills carry three specific bullets against a four-bullet threshold; four Marketing skills use prose triggers rather than bullets. Spot-checked and intentional — CANVAS's pre-publication review uses prose precisely to say <em>"Runs on 100% of assets — a sampled review is the same as no gate."</em> Padding them to satisfy a threshold would make them worse.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>187 files validating · 0 broken links · 60 edits applied across the audit, 0 misses. Source of truth is <code>AGENT_HANDBOOK_24.md</code>; where an HTML file disagrees with it, the handbook wins.</p>
+  </footer>
+
+</div>
+</body>
+</html>

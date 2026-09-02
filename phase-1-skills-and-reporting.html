@@ -1,0 +1,582 @@
+<title>Phase 1 Skills & Reporting Lines</title>
+<style>
+  :root {
+    --bg: #F4F5F2;
+    --bg-raised: #FFFFFF;
+    --bg-sunken: #E9EAE5;
+    --ink: #14161B;
+    --ink-soft: #52565F;
+    --ink-faint: #8A8E96;
+    --rule: #DBDCD5;
+    --rule-strong: #C5C7BE;
+    --accent: #4A4FE0;
+    --accent-ink: #3A3EC0;
+    --accent-soft: #ECEDFB;
+    --cmd: #4A4FE0;
+    --rev: #B15A17;
+    --mkt: #A02861;
+    --ops: #147A6C;
+    --ppl: #7A3596;
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14161B;
+      --bg-raised: #1B1E25;
+      --bg-sunken: #0F1114;
+      --ink: #EDEEEA;
+      --ink-soft: #A8ABB3;
+      --ink-faint: #6B6F79;
+      --rule: #2A2D35;
+      --rule-strong: #383C46;
+      --accent: #8489F5;
+      --accent-ink: #A5A9FA;
+      --accent-soft: #23264A;
+      --cmd: #8489F5;
+      --rev: #E0954F;
+      --mkt: #E066A0;
+      --ops: #4FC7B4;
+      --ppl: #C081DE;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14161B;
+    --bg-raised: #1B1E25;
+    --bg-sunken: #0F1114;
+    --ink: #EDEEEA;
+    --ink-soft: #A8ABB3;
+    --ink-faint: #6B6F79;
+    --rule: #2A2D35;
+    --rule-strong: #383C46;
+    --accent: #8489F5;
+    --accent-ink: #A5A9FA;
+    --accent-soft: #23264A;
+    --cmd: #8489F5;
+    --rev: #E0954F;
+    --mkt: #E066A0;
+    --ops: #4FC7B4;
+    --ppl: #C081DE;
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 0 8rem;
+  }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 0 1.75rem; }
+
+  a { color: inherit; }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ── masthead ─────────────────────────── */
+  .masthead {
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 0.9rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.6vw, 3.2rem);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+  .subhead {
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 1.1rem 0 0;
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    margin-top: 1.8rem;
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── nav pills ────────────────────────── */
+  .jump {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .jump a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    transition: border-color .15s, color .15s;
+  }
+  .jump a:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+  section { margin-top: 3.4rem; }
+  section > h2 { font-size: 1.65rem; }
+  section > .section-note {
+    color: var(--ink-soft);
+    font-size: 0.96rem;
+    max-width: 680px;
+    margin: 0.5rem 0 1.6rem;
+  }
+
+  /* ── org table ────────────────────────── */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: var(--bg-raised);
+  }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; }
+  thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-sunken);
+    position: sticky;
+    top: 0;
+  }
+  .div-row td {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    color: var(--dc);
+    background: color-mix(in srgb, var(--dc) 10%, var(--bg-raised));
+  }
+  tbody tr.agent-row td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+    font-size: 0.88rem;
+  }
+  tbody tr.agent-row:hover td { background: var(--bg-sunken); }
+  .codename {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.86rem;
+    letter-spacing: 0.01em;
+  }
+  .codename .dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--dc);
+    margin-right: 0.55rem;
+  }
+  .role-cell .title { display: block; }
+  .role-cell .div-tag { font-size: 0.72rem; color: var(--ink-faint); }
+  .reports-to {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+  .reports-to.exception { color: var(--rev); font-weight: 600; }
+  .aut-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .phase-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .phase-badge.p1 { background: color-mix(in srgb, var(--ops) 18%, transparent); color: var(--ops); }
+  .phase-badge.p2 { background: color-mix(in srgb, var(--rev) 18%, transparent); color: var(--rev); }
+  .phase-badge.p3 { background: color-mix(in srgb, var(--ink-faint) 18%, transparent); color: var(--ink-faint); }
+
+  .legend {
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    align-items: center;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .legend .sw { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── skills section ───────────────────── */
+  .skills-note {
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    line-height: 1.55;
+  }
+  .skills-note strong { color: var(--accent-ink); }
+
+  .agent-card {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--bg-raised);
+    padding: 1.7rem 1.9rem;
+    margin-bottom: 1.4rem;
+    border-left: 3px solid var(--dc);
+  }
+  .agent-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .step {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--dc);
+    background: color-mix(in srgb, var(--dc) 14%, transparent);
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .agent-name { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; }
+  .agent-title { font-size: 0.88rem; color: var(--ink-faint); }
+  .agent-mission {
+    font-size: 0.98rem;
+    color: var(--ink-soft);
+    margin: 0.9rem 0 1.3rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--rule);
+    max-width: 640px;
+  }
+
+  .skill-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem 1.6rem;
+  }
+  @media (max-width: 720px) { .skill-list { grid-template-columns: 1fr; } }
+  .skill-list li {
+    padding-left: 1.6rem;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .skill-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.42rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 3px;
+    border: 1.5px solid var(--dc);
+  }
+  .skill-name {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--ink);
+    display: block;
+  }
+  .skill-desc { color: var(--ink-soft); }
+  .skill-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--dc);
+    margin-left: 0.4rem;
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    line-height: 1.6;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<main>
+
+  <div class="masthead">
+    <p class="eyebrow">Paperclip agent architecture &middot; working memo</p>
+    <h1>Phase 1 Skills &amp; Reporting Lines</h1>
+    <p class="subhead">Two things the roster docs don't spell out yet: the full org chart for all 24 agents in one table, and a concrete skill breakdown &mdash; the discrete, buildable capabilities each one needs &mdash; for the ten agents queued to build first.</p>
+    <div class="meta">
+      <span>Derived from AGENT_HANDBOOK_24.md, agent-roster.html, phase-1-build-briefs.html</span>
+      <span>28 Aug 2026</span>
+    </div>
+    <div class="jump">
+      <a href="#org-chart">Reporting table &darr;</a>
+      <a href="#skills">Phase 1 skills &darr;</a>
+    </div>
+  </div>
+
+  <section id="org-chart">
+    <h2>The full roster, who reports to whom</h2>
+    <p class="section-note">All 24 agents. Every agent reports to <strong>ATLAS</strong> except two deliberate exceptions, flagged below &mdash; AEGIS and SAGE both report straight to the Account Owner, bypassing ATLAS entirely, because a compliance gate that answers to the operator it polices stops being a compliance gate, and a personal assistant that answers to the company instead of the person stops being personal.</p>
+
+    <div class="table-wrap">
+      <table id="orgTable">
+        <thead>
+          <tr>
+            <th style="width:16%">Agent</th>
+            <th style="width:24%">Hires as</th>
+            <th style="width:16%">Reports to</th>
+            <th style="width:12%">Autonomy</th>
+            <th style="width:12%">Build phase</th>
+            <th>Owns</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="legend">
+      <span><span class="sw" style="background:var(--cmd)"></span>Command</span>
+      <span><span class="sw" style="background:var(--rev)"></span>Revenue</span>
+      <span><span class="sw" style="background:var(--mkt)"></span>Marketing</span>
+      <span><span class="sw" style="background:var(--ops)"></span>Operations</span>
+      <span><span class="sw" style="background:var(--ppl)"></span>People</span>
+      <span style="margin-left:0.6rem"><span class="phase-badge p1">P1</span> build first</span>
+      <span><span class="phase-badge p2">P2</span> build next</span>
+      <span><span class="phase-badge p3">P3</span> not yet</span>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Suggested skills &mdash; the ten Phase 1 agents</h2>
+    <p class="section-note">In build order. Each skill is a discrete, independently buildable capability &mdash; the unit you'd actually hand to an engineer or scope as one Claude Agent SDK tool &mdash; not a restatement of the job description. Skills marked <span class="skill-tag" style="color:var(--ink-soft)">v2</span> are the harder, paperclip-specific layer the build briefs say to defer until the base agent is live.</p>
+    <div class="skills-note">All ten sit downstream of two agents that build <em>alongside</em> them rather than before them: every message any Phase 1 agent sends should assume it passes through <strong>AEGIS</strong>'s pre-send compliance gate, and every cross-agent handoff should assume <strong>ATLAS</strong>'s routing contract exists, even though both are formally Phase 2.</div>
+
+    <div id="skillCards"></div>
+  </section>
+
+  <footer>
+    Reporting lines and autonomy levels per AGENT_HANDBOOK_24.md &middot; build-phase assignment per agent-build-sequence.html and agents-to-build.html (both memos agree on the same 10/7/7 split by different evidence) &middot; skill breakdowns synthesized from phase-1-build-briefs.html's concrete CRM V3 scope, not restated from the handbook's responsibilities lists.
+  </footer>
+
+</main>
+
+<script>
+const DIVC = { cmd: 'var(--cmd)', rev: 'var(--rev)', mkt: 'var(--mkt)', ops: 'var(--ops)', ppl: 'var(--ppl)' };
+const DIVNAME = { cmd: 'Command', rev: 'Revenue', mkt: 'Marketing', ops: 'Operations', ppl: 'People' };
+
+const ROSTER = [
+  // [codename, hire-title, division, reportsTo, exception?, autonomy, phase, owns]
+  ['ATLAS','Chief of Staff','cmd','Account Owner',true,'L4','P2 (build w/ P1)','All modules'],
+  ['AEGIS','Compliance Officer','cmd','Account Owner',true,'Always on','P2 (build w/ P1)','Outbound QA, Audit'],
+  ['SAGE','Executive Assistant','cmd','Account Owner',true,'L3','P1','Dashboard, Notifications'],
+  ['COMPASS','Onboarding & Adoption Lead','cmd','ATLAS',false,'L2','P3','Settings, Modules'],
+
+  ['SCOUT','Intake & Enrichment','rev','ATLAS',false,'L4','P1','Leads, Contacts, Forms'],
+  ['PULSE','Qualification Specialist','rev','ATLAS',false,'L2 hard cap','P1','Lead scoring'],
+  ['ECHO','Conversations Manager','rev','ATLAS',false,'L3','P1','Conversations, Social Inbox'],
+  ['VOX','Voice Agent','rev','ATLAS',false,'L3','P2','AI Voice, Voice Campaigns'],
+  ['TEMPO','Scheduling & Task Coordinator','rev','ATLAS',false,'L4','P1','Calendar, Bookings, Tasks'],
+  ['FORGE','Pipeline & Deal Ops','rev','ATLAS',false,'L3 / L2 on terms','P1','Pipeline'],
+  ['EMBER','Retention & Reactivation','rev','ATLAS',false,'L3','P3','Followup, Drip Campaigns'],
+
+  ['QUILL','Copywriter & Content Strategist','mkt','ATLAS',false,'L2','P1','Template Library'],
+  ['CANVAS','Brand & Creative Director','mkt','ATLAS',false,'L2','P1','Brand Guideline'],
+  ['RELAY','Campaign Operations','mkt','ATLAS',false,'L2','P2','Email, SMS Campaigns'],
+  ['BEACON','Social Media Manager','mkt','ATLAS',false,'L2','P2','Social Platforms'],
+
+  ['CIRCUIT','Automation Architect','ops','ATLAS',false,'L2','P1','Automation, Custom Fields'],
+  ['VAULT','Document & File Intelligence','ops','ATLAS',false,'L3','P3','Files'],
+  ['LEDGER','Analytics & Intelligence Officer','ops','ATLAS',false,'L1 advisory','P1','Dashboard, Reporting'],
+  ['WARDEN','Admin & Access Governance','ops','ATLAS',false,'L2','P2','Users, Roles, Branches'],
+  ['ABACUS','Billing & Token Economy','ops','ATLAS',false,'L1 advisory','P2','Subscription, Invoices'],
+  ['TALLY','The Controller','ops','ATLAS',false,'L1 advisory','P3','Commissions, Payouts'],
+  ['VANTAGE','Market Analyst','ops','ATLAS',false,'L2','P3','Market data, Territory'],
+
+  ['HARBOR','The Recruiter','ppl','ATLAS',false,'L2','P3','Recruiting pipeline'],
+  ['HONE','The Coach','ppl','ATLAS',false,'L1 advisory','P3','Call review, Coaching'],
+];
+
+const tbody = document.querySelector('#orgTable tbody');
+const order = ['cmd','rev','mkt','ops','ppl'];
+order.forEach(div => {
+  const row = document.createElement('tr');
+  row.className = 'div-row';
+  row.style.setProperty('--dc', DIVC[div]);
+  row.innerHTML = `<td colspan="6">${DIVNAME[div]}</td>`;
+  tbody.appendChild(row);
+  ROSTER.filter(a => a[2] === div).forEach(a => {
+    const [codename, title, division, reportsTo, exception, autonomy, phase, owns] = a;
+    const tr = document.createElement('tr');
+    tr.className = 'agent-row';
+    tr.style.setProperty('--dc', DIVC[division]);
+    const phaseClass = phase.startsWith('P1') ? 'p1' : phase.startsWith('P2') ? 'p2' : 'p3';
+    tr.innerHTML = `
+      <td><span class="codename"><span class="dot"></span>${codename}</span></td>
+      <td class="role-cell"><span class="title">${title}</span></td>
+      <td class="reports-to${exception ? ' exception' : ''}">${reportsTo}${exception ? ' *' : ''}</td>
+      <td><span class="aut-badge">${autonomy}</span></td>
+      <td><span class="phase-badge ${phaseClass}">${phase}</span></td>
+      <td style="color:var(--ink-soft);font-size:0.85rem">${owns}</td>`;
+    tbody.appendChild(tr);
+  });
+});
+
+const SKILLS = [
+  { id:'SCOUT', div:'rev', title:'Intake & Enrichment', mission:'Every lead that enters paperclip passes through SCOUT first — source-tagged, deduplicated, and assigned before anything else can touch it.',
+    skills:[
+      ['Source Gatekeeper','Rejects any lead record missing a valid Source (Website, Self Gen, Referral, Transferred, webhook) — no source, no lead, no exceptions.'],
+      ['Assignment Router','Applies the per-source assignment policy — Assign to me, round-robin, or named officer — at the moment a lead is created.'],
+      ['Bulk Import Handler','Drag-and-drop ingestion with 10MB limit enforcement and unsupported-file-type rejection ahead of any parsing.'],
+      ['Identity Resolver','Collapses the same human arriving through multiple channels/phone formats into one canonical record.','v2'],
+      ['Enrichment Lookup','Attaches property, tenure, and market-context data to a resolved lead record.','v2'],
+    ]},
+  { id:'LEDGER', div:'ops', title:'Analytics & Intelligence Officer', mission:'Turns pipeline, contact, and campaign activity into the numbers other agents and humans act on.',
+    skills:[
+      ['Stat Card Compiler','Computes Pipeline Value, Win Rate, Avg Loan Size, Funded Deals/Volume, Avg Credit Score, filterable by 7D/30D/90D/quarter/year.'],
+      ['Insight Banner Writer','Fills the existing "What the numbers are telling you" UI slot with a real, data-grounded sentence instead of static copy.'],
+      ['Cross-Module Reconciler','Verifies every dashboard count matches its source module count (e.g. New Leads badge vs. the Leads list) before display.'],
+      ['Cohort Analyzer','Groups contacts by lead vintage so this month is judged against the right maturity curve.','v2'],
+      ['Daily Brief Composer','Produces the sub-400-word, decision-first executive summary.','v2'],
+    ]},
+  { id:'ECHO', div:'rev', title:'Conversations Manager', mission:'Owns every lead-facing conversation thread and who\'s assigned to work it.',
+    skills:[
+      ['Reply Drafter','Generates a reply from the approved template/objection library for a classified inbound message.'],
+      ['Intent Classifier','Sorts every inbound into exactly one bucket — hot, question, objection, reschedule, wrong number, opt-out, hostile, legal.'],
+      ['Assignment Panel','Runs the three assignment modes — Manual, Round-robin, Load balance — from the same picker used elsewhere.'],
+      ['Activity Logger','Writes every action to the timestamped, expandable activity feed automatically.'],
+      ['Consent Gate Check','Confirms channel consent and quiet-hours-by-timezone before a reply is allowed to send.','v2'],
+    ]},
+  { id:'TEMPO', div:'rev', title:'Scheduling & Task Coordinator', mission:'Turns a qualified lead into a booked, confirmed meeting.',
+    skills:[
+      ['Booking Type Handler','Supports all four booking types, including multi-host Collective Call.'],
+      ['Slot Prefill Engine','Pre-fills the New Booking drawer from the contact record and matches the timezone note to the account timezone.'],
+      ['Form Duration Sync','Keeps Booking Form Builder\'s configurable slot duration reflected live in the preview.'],
+      ['No-Show Recovery','Detects a missed booking and re-engages within minutes rather than the next business day.'],
+      ['Task Generator','Creates owned, dated tasks from calls, conversations, and stage changes automatically.'],
+    ]},
+  { id:'FORGE', div:'rev', title:'Pipeline & Deal Ops', mission:'Moves a lead through mortgage-specific pipeline stages under governance gates.',
+    skills:[
+      ['Stage Gate Enforcer','Blocks invalid stage transitions and names the unmet requirement; respects the always-locked first stage.'],
+      ['Pipeline Settings Reader','Honors the Locked Pipeline toggle and Loan Officer/Admin role split when evaluating a transition.'],
+      ['Bulk Stage Assigner','Adds leads to a stage in bulk, filterable by source and status, with an accurate running selection counter.'],
+      ['Stall Detector','Flags a deal the moment it exceeds expected dwell time for its stage.'],
+      ['Escalation Ladder','Fires at 72h, 48h, and 24h ahead of a deadline.','v2'],
+    ]},
+  { id:'PULSE', div:'rev', title:'Qualification Specialist', mission:'Scores and routes leads by intent and fit.',
+    skills:[
+      ['Blended Scorer','Ships one combined qualification score as the v1 baseline.'],
+      ['Status Reconciler','Keeps per-status lead counts consistent between the Statuses tab and the Overview\'s filter chips.'],
+      ['Position Numbering','Keeps "Your pipeline" header counts and status-position numbers contiguous as leads move.'],
+      ['Dual-Axis Splitter','Separates the blended score into independent intent and fit axes, reported separately.','v2'],
+      ['Compliant Disqualifier','Routes a disqualification internally without ever phrasing it to the customer as an approval/denial decision.','v2'],
+    ]},
+  { id:'CIRCUIT', div:'ops', title:'Automation Architect', mission:'The workflow-builder layer every other agent\'s triggers run through.',
+    skills:[
+      ['NL-to-Workflow Compiler','Converts a plain-language outcome description into a working multi-step automation with branching and delays.'],
+      ['Trigger Registry','Maintains the searchable trigger list and exposes a "Trigger manually" option other agents can call into.'],
+      ['Naming Validator','Refuses to publish an automation without a name and a populated trigger-events column — no silent "Untitled" states.'],
+      ['Draft Gate','Keeps a built automation inert until explicitly published.'],
+      ['Backtest Runner','Runs a new workflow against historical data and reports what would have happened before activation.','v2'],
+    ]},
+  { id:'CANVAS', div:'mkt', title:'Brand & Creative Director', mission:'Keeps every generated asset on-brand.',
+    skills:[
+      ['Brand Profile Loader','Reads the Brand Voice selection and uploaded logo (with format/size limits enforced) from the Brand Guideline form.'],
+      ['Propagation Enforcer','Ensures the loaded logo and brand voice apply to every generated post and virtual card without manual reattachment.'],
+      ['Asset Generator','Produces Image Post and Virtual Card creative in platform-appropriate sizes from the Content Generation wizard.'],
+      ['Co-Branded Populator','Fills per-user variants live from profile records so credentials are never hardcoded.','v2'],
+      ['Library Curator','Tags, versions, and deduplicates generated assets in the content library.','v2'],
+    ]},
+  { id:'SAGE', div:'cmd', title:'Executive Assistant', mission:'The ambient "what needs my attention" layer sitting on top of everyone else\'s data.',
+    skills:[
+      ['Briefing Composer','Fills the existing "Your afternoon briefing" banner with real, time-of-day-aware content.'],
+      ['Quick Action Wirer','Makes "Work top lead" and "Show hot leads" banner actions actually route to the right record.'],
+      ['Briefing Expander','Powers the "Open AI briefing" full-detail view, updating as underlying data changes.'],
+      ['Attention Badge Feed','Drives the Dashboard\'s "Needs Attention" badge and notification bell count from real signals instead of static counts.'],
+      ['Neglect Surfacer','Flags the stalled file, the unanswered reply, the cooling lead specifically, not generically.','v2'],
+    ]},
+  { id:'QUILL', div:'mkt', title:'Copywriter & Content Strategist', mission:'Generates on-brand copy that every other agent calls into.',
+    skills:[
+      ['Disclaimer Injector','Reads the Campaign Settings disclaimer toggle and appends required opt-out text to outbound copy automatically.'],
+      ['Template Metadata Matcher','Generates copy that matches a template\'s declared type and category (Email, SMS, etc.) in the Template Library.'],
+      ['Wizard Draft Function','Serves as the shared draft-generation call inside the Marketing and Social Media wizards — not a standalone screen.'],
+      ['Variant Generator','Produces copy variants with a stated hypothesis attached so LEDGER can measure something real.','v2'],
+      ['Compliance-at-Generation Filter','Applies protected-class and steering constraints at the moment of writing.','v2'],
+    ]},
+];
+
+const cards = document.getElementById('skillCards');
+SKILLS.forEach((a, i) => {
+  const el = document.createElement('article');
+  el.className = 'agent-card';
+  el.style.setProperty('--dc', DIVC[a.div]);
+  el.innerHTML = `
+    <div class="agent-head">
+      <span class="step">${i+1}</span>
+      <div>
+        <span class="agent-name">${a.id}</span>
+        <div class="agent-title">${a.title}</div>
+      </div>
+    </div>
+    <p class="agent-mission">${a.mission}</p>
+    <ul class="skill-list">
+      ${a.skills.map(s => `<li><span class="skill-name">${s[0]}${s[2] ? `<span class="skill-tag">${s[2]}</span>` : ''}</span><span class="skill-desc">${s[1]}</span></li>`).join('')}
+    </ul>`;
+  cards.appendChild(el);
+});
+</script>

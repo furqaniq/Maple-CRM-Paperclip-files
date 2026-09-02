@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MapleConnect &middot; Agent Skill Requirements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F5F2; --bg-raised:#FFFFFF; --bg-sunken:#E9EAE5;
+  --ink:#14161B; --ink-soft:#52565F; --ink-faint:#8A8E96;
+  --rule:#DBDCD5; --rule-strong:#C5C7BE;
+  --accent:#4A4FE0; --accent-ink:#3A3EC0; --accent-soft:#ECEDFB;
+  --cmd:#4A4FE0; --rev:#B15A17; --mkt:#A02861; --ops:#147A6C; --ppl:#7A3596;
+  --lock-bg:#14161B; --lock-fg:#F4F5F2;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14161B; --bg-raised:#1B1E25; --bg-sunken:#0F1114;
+    --ink:#EDEEEA; --ink-soft:#A8ABB3; --ink-faint:#6B6F79;
+    --rule:#2A2D35; --rule-strong:#383C46;
+    --accent:#8489F5; --accent-ink:#A5A9FA; --accent-soft:#23264A;
+    --cmd:#8489F5; --rev:#E0954F; --mkt:#E066A0; --ops:#4FC7B4; --ppl:#C081DE;
+    --lock-bg:#EDEEEA; --lock-fg:#14161B;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14161B; --bg-raised:#1B1E25; --bg-sunken:#0F1114;
+  --ink:#EDEEEA; --ink-soft:#A8ABB3; --ink-faint:#6B6F79;
+  --rule:#2A2D35; --rule-strong:#383C46;
+  --accent:#8489F5; --accent-ink:#A5A9FA; --accent-soft:#23264A;
+  --cmd:#8489F5; --rev:#E0954F; --mkt:#E066A0; --ops:#4FC7B4; --ppl:#C081DE;
+  --lock-bg:#EDEEEA; --lock-fg:#14161B;
+}
+
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.55;
+  margin:0; padding:0 0 6rem; -webkit-font-smoothing:antialiased;
+}
+main{max-width:1120px;margin:0 auto;padding:0 1.75rem}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;font-weight:600;color:var(--ink);margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+/* ── masthead ───────────────────────────── */
+.masthead{padding:4rem 0 2.4rem;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 .9rem}
+h1{font-size:clamp(2.2rem,4.6vw,3.2rem);letter-spacing:-.01em;line-height:1.05}
+.subhead{font-size:1.08rem;color:var(--ink-soft);max-width:660px;margin:1.1rem 0 0}
+.counts{display:flex;gap:2.6rem;flex-wrap:wrap;margin-top:2rem}
+.counts b{display:block;font-family:var(--font-display);font-size:2.1rem;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.counts span{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint)}
+.provenance{font-family:var(--font-mono);font-size:.74rem;color:var(--ink-faint);margin-top:1.7rem;line-height:1.6}
+
+/* ── rule note ──────────────────────────── */
+.method{
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  border-radius:10px;padding:1.15rem 1.4rem;margin:2.2rem 0 0;
+  font-size:.92rem;line-height:1.6;max-width:none;
+}
+.method strong{color:var(--accent-ink)}
+.method .lock-inline{
+  display:inline-block;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.07em;
+  text-transform:uppercase;padding:.1rem .42rem;border-radius:4px;
+  background:var(--lock-bg);color:var(--lock-fg);vertical-align:.06em;
+}
+
+/* ── filter rail ────────────────────────── */
+.rail{
+  position:sticky;top:0;z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--rule);
+  padding:.85rem 0;margin-top:2.4rem;
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+}
+.rail-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:.2rem}
+.chip{
+  font-family:var(--font-mono);font-size:.72rem;letter-spacing:.03em;
+  padding:.32rem .8rem;border:1px solid var(--rule-strong);border-radius:999px;
+  background:transparent;color:var(--ink-soft);cursor:pointer;transition:border-color .15s,color .15s,background .15s;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent-ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.lock[aria-pressed="true"]{background:var(--lock-bg);color:var(--lock-fg);border-color:var(--lock-bg)}
+.rail .spacer{flex:1}
+.search{
+  font-family:var(--font-mono);font-size:.76rem;padding:.36rem .7rem;width:210px;
+  border:1px solid var(--rule-strong);border-radius:6px;
+  background:var(--bg-raised);color:var(--ink);
+}
+.search::placeholder{color:var(--ink-faint)}
+.search:focus{outline:none;border-color:var(--accent)}
+.result-count{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-faint);white-space:nowrap}
+
+/* ── divisions ──────────────────────────── */
+.div-block{margin-top:3rem}
+.div-head{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;padding-bottom:.7rem;border-bottom:1px solid var(--rule)}
+.div-name{font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:var(--dc)}
+.div-meta{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* ── agent card ─────────────────────────── */
+.agent{
+  border:1px solid var(--rule);border-left:3px solid var(--dc);border-radius:12px;
+  background:var(--bg-raised);padding:1.6rem 1.8rem;margin-top:1.3rem;
+}
+.a-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+.a-num{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.a-name{font-family:var(--font-display);font-size:1.5rem;font-weight:600;letter-spacing:-.01em}
+.a-title{font-size:.9rem;color:var(--dc);font-weight:500}
+.a-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-left:auto}
+.badge{
+  font-family:var(--font-mono);font-size:.64rem;letter-spacing:.04em;
+  padding:.17rem .5rem;border-radius:5px;border:1px solid var(--rule-strong);
+  color:var(--ink-soft);white-space:nowrap;
+}
+.badge.p1{background:color-mix(in srgb,var(--ops) 16%,transparent);color:var(--ops);border-color:transparent}
+.badge.p2{background:color-mix(in srgb,var(--rev) 16%,transparent);color:var(--rev);border-color:transparent}
+.badge.p3{background:color-mix(in srgb,var(--ink-faint) 16%,transparent);color:var(--ink-faint);border-color:transparent}
+.badge.exc{color:var(--rev);border-color:color-mix(in srgb,var(--rev) 45%,transparent)}
+.a-mandate{font-size:.95rem;color:var(--ink-soft);margin:.85rem 0 1.2rem;padding-bottom:1.1rem;border-bottom:1px solid var(--rule);max-width:70ch}
+
+.skills{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.95rem 1.7rem}
+@media (max-width:760px){.skills{grid-template-columns:1fr}}
+.skills li{padding-left:1.55rem;position:relative;font-size:.89rem;line-height:1.5}
+.skills li::before{
+  content:"";position:absolute;left:0;top:.4rem;width:.68rem;height:.68rem;
+  border-radius:3px;border:1.5px solid var(--dc);
+}
+.skills li.lock::before{background:var(--lock-bg);border-color:var(--lock-bg)}
+.s-name{font-family:var(--font-mono);font-weight:600;font-size:.81rem;color:var(--ink);display:block;margin-bottom:.05rem}
+.s-lock{
+  display:inline-block;font-family:var(--font-mono);font-size:.57rem;letter-spacing:.07em;
+  text-transform:uppercase;padding:.06rem .38rem;border-radius:4px;margin-left:.4rem;
+  background:var(--lock-bg);color:var(--lock-fg);vertical-align:.09em;font-weight:500;
+}
+.s-desc{color:var(--ink-soft)}
+
+.empty{padding:3rem 0;text-align:center;color:var(--ink-faint);font-family:var(--font-mono);font-size:.82rem}
+
+footer{
+  margin-top:4rem;padding-top:1.4rem;border-top:1px solid var(--rule);
+  font-family:var(--font-mono);font-size:.73rem;color:var(--ink-faint);line-height:1.7;
+}
+</style>
+</head>
+<body>
+<main>
+
+  <div class="masthead">
+    <p class="eyebrow">Paperclip agent architecture &middot; skill requirements</p>
+    <h1>What Each Agent Has To Be Able To Do</h1>
+    <p class="subhead">The full 24-agent roster decomposed into required skills &mdash; the discrete, independently buildable capabilities each agent needs to perform the job the handbook assigns it. One row per skill, not one row per responsibility.</p>
+    <div class="counts">
+      <div><b id="cAgents">24</b><span>Agents</span></div>
+      <div><b id="cSkills">0</b><span>Skills</span></div>
+      <div><b id="cLocks">0</b><span>Interlocks</span></div>
+      <div><b>5</b><span>Divisions</span></div>
+    </div>
+    <p class="provenance">Derived from AGENT_HANDBOOK_24.md &mdash; job descriptions, responsibilities, and hard boundaries.<br>Hire titles and build phases per agent-build-sequence.html &middot; 31 Aug 2026</p>
+  </div>
+
+  <div class="method">
+    <strong>How to read this.</strong> A skill here is a unit of work you could scope, build, and test on its own &mdash; the thing you would hand to an engineer or define as one tool in an agent&rsquo;s toolset. It is deliberately not a restatement of the handbook&rsquo;s responsibility bullets. A skill marked <span class="lock-inline">interlock</span> implements that agent&rsquo;s named <strong>Hard boundary</strong> from the handbook: it exists because a regulator, not a product manager, requires it, and it cannot be configured off. Eleven of the twenty-four agents carry one; the remaining thirteen have no boundary the handbook states as absolute, and are unmarked here rather than assigned a boundary the source does not give them.
+  </div>
+
+  <div class="rail">
+    <span class="rail-label">Division</span>
+    <button class="chip" data-filter="div" data-value="all" aria-pressed="true">All</button>
+    <button class="chip" data-filter="div" data-value="cmd" aria-pressed="false">Command</button>
+    <button class="chip" data-filter="div" data-value="rev" aria-pressed="false">Revenue</button>
+    <button class="chip" data-filter="div" data-value="mkt" aria-pressed="false">Marketing</button>
+    <button class="chip" data-filter="div" data-value="ops" aria-pressed="false">Operations</button>
+    <button class="chip" data-filter="div" data-value="ppl" aria-pressed="false">People</button>
+    <span class="rail-label" style="margin-left:.7rem">Phase</span>
+    <button class="chip" data-filter="phase" data-value="all" aria-pressed="true">All</button>
+    <button class="chip" data-filter="phase" data-value="P1" aria-pressed="false">P1</button>
+    <button class="chip" data-filter="phase" data-value="P2" aria-pressed="false">P2</button>
+    <button class="chip" data-filter="phase" data-value="P3" aria-pressed="false">P3</button>
+    <button class="chip lock" id="lockOnly" aria-pressed="false" style="margin-left:.7rem">Interlocks only</button>
+    <span class="spacer"></span>
+    <span class="result-count" id="resultCount"></span>
+    <input class="search" id="search" type="search" placeholder="Search skills&hellip;" aria-label="Search agents and skills">
+    <button class="chip" id="themeToggle" aria-pressed="false" title="Toggle light / dark">Theme</button>
+  </div>
+
+  <div id="roster"></div>
+  <p class="empty" id="empty" hidden>No agent or skill matches that filter.</p>
+
+  <footer>
+    Skills synthesized from each agent&rsquo;s handbook job description, responsibility list, and hard boundary &middot; reporting lines and autonomy levels per AGENT_HANDBOOK_24.md &middot; build phases per agent-build-sequence.html and agents-to-build.html &middot; companion to phase-1-skills-and-reporting.html, which covers the ten Phase 1 agents against concrete CRM V3 UI behavior instead.
+  </footer>
+
+</main>
+
+<script>
+const DIV = {
+  cmd:{name:"Command",  note:"the layer every request passes through"},
+  rev:{name:"Revenue",  note:"lead to closed"},
+  mkt:{name:"Marketing",note:"what the company says and how it looks"},
+  ops:{name:"Operations",note:"the platform running itself"},
+  ppl:{name:"People",   note:"the division nobody else in this category has built"}
+};
+
+// [name, description, interlock?]
+const AGENTS = [
+{n:1,id:"ATLAS",title:"Chief of Staff",div:"cmd",reports:"Account Owner",autonomy:"L4",phase:"P2",phaseNote:"P2 · build w/ P1",plan:true,
+ mandate:"The single agent a user can address about anything — it decomposes an instruction into a multi-agent plan and returns one consolidated answer, performing no specialist work itself.",
+ skills:[
+  ["Plan Decomposer","Converts one plain-language instruction into a multi-agent work plan with named owners, ordering, and explicit success conditions."],
+  ["Signal Router","Classifies every inbound event — new lead, reply, missed call, form fill, stage change, deadline — and dispatches it to the owning agent inside the 400ms budget."],
+  ["Memory Brief Store","Maintains the per-contact brief every other agent reads before acting, so no agent re-asks a question the company already knows."],
+  ["Loop Breaker","Detects agent-to-agent contradiction, stalls, and handoff loops, then resolves or escalates rather than letting them spin."],
+  ["Budget Governor","Enforces token and cost ceilings per contact, campaign, and user, and halts the step rather than degrading output quality to stay under."],
+  ["Confidence Tripwire","Forces a human handoff the moment confidence drops on anything touching money, deadlines, or legal exposure."],
+  ["Roster Reporter","Compiles what every agent did this week and what it produced into one cross-roster report."]
+ ]},
+
+{n:2,id:"AEGIS",title:"Compliance Officer",div:"cmd",reports:"Account Owner",autonomy:"L3 · cannot be disabled",phase:"P2",phaseNote:"P2 · build w/ P1",plan:true,
+ mandate:"Inspects one hundred percent of outbound communication before it leaves the platform — deterministic rule pass first, judgment pass second.",
+ skills:[
+  ["Consent Ledger","Tracks per-channel consent state, honors an opt-out instantly and irreversibly, and maintains DNC and suppression lists."],
+  ["Quiet-Hours Clock","Evaluates every send window in the contact’s timezone rather than the office’s, with frequency caps per rolling window."],
+  ["Disclosure Builder","Assembles required disclosures live from the sending user’s profile — license identifiers, equal-opportunity notice, jurisdictional limits, AI disclosure, recording notice — so nothing ships stale or incomplete."],
+  ["Protected-Class Screen","Detects protected-class references, proxies, and steering language at the moment of generation rather than at review."],
+  ["Eligibility-Language Blocker","Blocks anything a consumer could reasonably read as an approval, denial, or eligibility statement."],
+  ["Two-Pass Gate","Runs the deterministic rule pass before the judgment pass, so a probabilistic system is never the last line of defense on a rule carrying statutory damages."],
+  ["Conversation Scorer","Scores every completed conversation on accuracy, compliance, helpfulness, and tone — the scores that promote or demote every other agent’s autonomy."],
+  ["Red-Team Scheduler","Runs scheduled adversarial tests against the other twenty-three and blocks promotion on any successful attack."],
+  ["Audit Ledger","Maintains the immutable log with export by contact, agent, or date range in under sixty seconds."],
+  ["Non-Overridable Block","A block stands regardless of who asks — it cannot be reversed by an admin, by ATLAS, or by a plan upgrade, because a compliance function reporting to the operator it polices is not a compliance function.",true]
+ ]},
+
+{n:3,id:"SAGE",title:"Executive Assistant",div:"cmd",reports:"Account Owner",autonomy:"L3",phase:"P1",phaseNote:"P1",plan:false,seat:true,
+ mandate:"Where ATLAS runs the company, SAGE runs the person — one instance per seat, opening the day with a prioritized decision queue rather than a lead list.",
+ skills:[
+  ["Daily Brief Composer","Assembles what changed overnight, what needs a decision today, and what breaks if it is ignored."],
+  ["Cross-Module Command Runner","Parses one natural-language instruction spanning several modules and executes it end to end without menu navigation."],
+  ["Meeting Prep Packet","Assembles full record context ahead of every call and meeting, not after it."],
+  ["Notification Collapser","Reduces the raw feed to the three items that genuinely matter to this person today."],
+  ["Thread Summarizer","Drafts internal chat replies and compresses long threads into decisions and open items."],
+  ["Working-Style Profile","Learns hours, tone, detail level, and which decisions this individual wants personally versus handled for them."],
+  ["Neglect Surfacer","Names the specific stalled file, unanswered reply, cooling lead, or quiet partner rather than issuing a generic nudge."]
+ ]},
+
+{n:4,id:"COMPASS",title:"Onboarding & Adoption Lead",div:"cmd",reports:"ATLAS",autonomy:"L2",phase:"P3",phaseNote:"P3",plan:true,
+ mandate:"Owns the first thirty days and the entire adoption curve after them, doing the setup work itself instead of handing the user a checklist.",
+ skills:[
+  ["Discovery Interview","Runs the conversational business intake — model, team structure, sales process, tools being replaced — and turns the answers into a configuration spec."],
+  ["Migration Mapper","Maps and deduplicates data from the previous system and emits a written report of what came over and what did not."],
+  ["Workspace Builder","Provisions pipeline stages, custom fields, forms, roles, branches, and permissions against the spec rather than a generic template."],
+  ["Roster Recommender","Recommends which agents this business needs, in what order, and at what autonomy."],
+  ["Shadow-Mode Runner","Runs every new agent in shadow and reports readiness before anything goes live."],
+  ["In-Context Trainer","Delivers the tip at the moment the feature becomes relevant instead of front-loading a video nobody watches."],
+  ["Adoption Monitor","Tracks usage per person and per module and intervenes on the specific human who stopped using the specific thing."]
+ ]},
+
+{n:5,id:"SCOUT",title:"Intake & Enrichment",div:"rev",reports:"ATLAS",autonomy:"L4",phase:"P1",phaseNote:"P1",
+ mandate:"First to touch every new lead from every source — complete, deduplicated, enriched, and routed before a competitor’s autoresponder has finished sending.",
+ skills:[
+  ["Source Normalizer","Maps paid social, search, landing pages, portals, referral partners, inbound calls, spreadsheets, and API into one canonical record shape."],
+  ["Identity Resolver","Collapses one human arriving four times through four channels with three phone formats into a single record."],
+  ["Enrichment Fetcher","Attaches property characteristics, ownership tenure, position estimates, market context, source lineage, and prior interaction history."],
+  ["Capacity-Aware Router","Routes by territory, language, specialty, and real-time capacity — never into someone at capacity or off shift."],
+  ["Form Builder & Drop-Off Analyzer","Builds intake forms with conditional logic and reports field-level abandonment."],
+  ["Instant Intake Event","Fires the intake event immediately so first touch lands inside the speed-to-lead window, with enrichment continuing in parallel."],
+  ["Junk & Duplicate-Spend Filter","Flags bot fills, junk, and duplicate paid spend before they pollute the database or the attribution model."],
+  ["Credit-Data Firewall","Never pulls, requests, infers, or stores consumer credit information, and labels every position figure as a property-derived estimate.",true]
+ ]},
+
+{n:6,id:"PULSE",title:"Qualification Specialist",div:"rev",reports:"ATLAS",autonomy:"L2 · hard cap",phase:"P1",phaseNote:"P1",
+ mandate:"Determines who is real, who is ready now, and who is neither — permanently capped at L2 because qualification sits directly adjacent to a legal boundary.",
+ skills:[
+  ["Discovery Interviewer","Gathers goal, timeline, situation, position, decision-makers, motivation, and complexity signals conversationally."],
+  ["Dual-Axis Scorer","Computes intent and fit as two independent scores and reports them separately, because a blended number destroys a rep’s ability to triage."],
+  ["Scenario Calculator","Produces indicative figures clearly labeled as estimates with their assumptions attached."],
+  ["Disposition Router","Assigns fast-track, nurture, park-with-a-named-reactivation-trigger, or disqualify-with-reason as an internal state."],
+  ["Complexity Flagger","Surfaces files requiring immediate human handling before anyone wastes time on them."],
+  ["Calibration Feedback Loop","Feeds every outcome back to LEDGER so scoring calibrates against what actually closed rather than what someone guessed."],
+  ["Outcome-Language Interlock","Never states or implies an approval, denial, pre-approval, or eligibility outcome; a disqualification stays an internal routing state and never reaches a customer as a decision.",true]
+ ]},
+
+{n:7,id:"ECHO",title:"Conversations Manager",div:"rev",reports:"ATLAS",autonomy:"L3",phase:"P1",phaseNote:"P1",
+ mandate:"Runs the unified written inbox — SMS, email, web chat, DM — as a working conversation partner rather than an autoresponder.",
+ skills:[
+  ["Sub-Minute Responder","Answers inside sixty seconds, twenty-four hours a day, in the customer’s language."],
+  ["Intent Classifier","Assigns exactly one of ten intents: hot, question, objection, reschedule, wrong number, opt-out, hostile, legal, auto-reply, unclear."],
+  ["Approved-Library Objection Handler","Answers objections from the compliance-approved library rather than improvising, because improvised objection handling is how compliance problems enter a system at scale."],
+  ["Two-Slot Closer","Converts conversation to a booked appointment by offering two real slots against live availability — never an open-ended “when works for you.”"],
+  ["Over-Inclusive Exit Matcher","Matches opt-out, hostility, legal, and wrong-number phrasing deliberately over-inclusively, and exits permanently when it fires."],
+  ["Distress Escalator","Routes complaints and distress to a human the same minute."],
+  ["Structured Writeback","Writes every exchange to the record as structured data rather than a transcript dump."]
+ ]},
+
+{n:8,id:"VOX",title:"Voice Agent",div:"rev",reports:"ATLAS",autonomy:"L3",phase:"P2",phaseNote:"P2",
+ mandate:"Answers every inbound call and places outbound with full record context loaded before the line connects — the highest-stakes agent in the roster and therefore the most tightly constrained.",
+ skills:[
+  ["Two-Ring Answer","Picks up within two rings with the caller recognized and their history already in context."],
+  ["Speed-to-Lead Dialer","Places the outbound call the moment SCOUT fires an intake event."],
+  ["Jurisdictional Disclosure Reader","Delivers the AI disclosure required by the contact’s jurisdiction at call open — never paraphrased, never shortened, never buried after pleasantries."],
+  ["Warm Transfer Brief","Speaks a context brief on the private leg so no human ever starts a call cold."],
+  ["Voicemail Drop Governor","Detects voicemail, leaves a message, and enforces the one-per-contact-per-day cap across every agent."],
+  ["Post-Call Structurer","Emits transcript, summary, sentiment, objections raised, commitments made by either party, disposition, and next action within seconds of hangup."],
+  ["Recording Consent Handler","Applies recording-consent rules by the contact’s jurisdiction before any recording begins.",true],
+  ["Immediate-Transfer Interlock","Transfers to a human on request instantly, always, with no retention attempt and without asking what it is regarding.",true]
+ ]},
+
+{n:9,id:"TEMPO",title:"Scheduling & Task Coordinator",div:"rev",reports:"ATLAS",autonomy:"L4",phase:"P1",phaseNote:"P1",
+ mandate:"Owns time — availability, booking, rescheduling, task generation, and no-show recovery. The highest-volume agent in the roster and the one users notice least, which is the point.",
+ skills:[
+  ["Availability Engine","Maintains real-time availability across the team, honoring working hours, buffers, travel time, and time zones."],
+  ["Booking Lifecycle","Books, confirms, reminds, and reschedules without a human touching a calendar."],
+  ["No-Show Recovery","Re-engages a missed appointment within minutes rather than the next day, while recovery odds still exist."],
+  ["Task Generator","Creates tasks from calls, conversations, stage changes, and deadlines with a real owner, a real due date, and context attached."],
+  ["Overdue Chaser","Chases overdue tasks and escalates specifically the ones blocking money."],
+  ["Focus-Block Defender","Protects deep-work blocks from being consumed by low-value meetings."],
+  ["Multi-Party Coordinator","Converges every outside participant onto one time without the email chain."]
+ ]},
+
+{n:10,id:"FORGE",title:"Pipeline & Deal Ops",div:"rev",reports:"ATLAS",autonomy:"L3 · L2 on terms",phase:"P1",phaseNote:"P1",
+ mandate:"Runs the file from won to closed — document chasing, milestone notification, deadline watching, partner updates. The agent that most directly returns a producer’s week to them.",
+ skills:[
+  ["Stage Gate Enforcer","Blocks an invalid stage transition and names the specific unmet requirement rather than failing silently."],
+  ["Dwell-Time Stall Detector","Flags a file the moment it exceeds expected time in stage, before it becomes a problem."],
+  ["Condition Parser","Breaks requirement and condition lists into individually tracked items with plain-English translations for the customer."],
+  ["Vault-First Chaser","Checks the file vault before re-requesting anything, then chases each item on its own cadence."],
+  ["72/48/24 Deadline Ladder","Escalates expirations, contingencies, and inspection windows at three fixed intervals, not once."],
+  ["Milestone Broadcaster","Pushes status to every outside party automatically so nobody has to chase it."],
+  ["Close Handoff","Runs pre-close and post-close sequences, then transfers lifetime ownership of the file to EMBER."],
+  ["Terms Interlock","Never alters terms, rates, locks, or fees under any framing — it surfaces, chases, notifies, and escalates, because changes are human acts with human audit trails.",true]
+ ]},
+
+{n:11,id:"EMBER",title:"Retention & Reactivation",div:"rev",reports:"ATLAS",autonomy:"L3",phase:"P3",phaseNote:"P3",
+ mandate:"Keeps every past lead and past customer on a clock and reaches out only when there is a genuine, specific, defensible reason to.",
+ skills:[
+  ["Next-Touch Clock","Holds a next-touch date and a stated reason for every dormant contact."],
+  ["21-Day Collision Guard","Prevents any agent from touching the same contact twice inside the twenty-one-day window."],
+  ["Benefit-Math Trigger","Watches market movement against a known position, value changes, life events, anniversaries, and eligibility windows, and fires only when the math genuinely benefits the contact — with the math attached."],
+  ["Adaptive Nurture Track","Runs long-horizon sequences that respond to engagement instead of marching through a fixed calendar."],
+  ["Peak-Emotion Review Ask","Requests a review at peak emotion, once, without incentives, and without routing unhappy customers away from public platforms."],
+  ["Record-Grounded Referral Ask","Builds a specific referral request grounded in the record rather than a generic one that converts near zero."],
+  ["Partner Value Drop","Nurtures partners and sphere with market data, co-marketing, and their own business promoted — never “just checking in.”"],
+  ["Closed-Lost Recycler","Re-engages a lost lead only once the reason it was lost has actually expired."],
+  ["Figure Disclosure Route","Routes any message containing a rate, payment, term, or cost figure through AEGIS’s disclosure builder automatically, and never drops the number to dodge the rule.",true]
+ ]},
+
+{n:12,id:"QUILL",title:"Copywriter & Content Strategist",div:"mkt",reports:"ATLAS",autonomy:"L2",phase:"P1",phaseNote:"P1",
+ mandate:"Writes everything the company says, in public and in private, with compliance built into generation rather than bolted on at review.",
+ skills:[
+  ["Channel Copy Generator","Produces ads, emails, SMS, landing pages, and listing content in the brand voice CANVAS defines, at volume."],
+  ["Hypothesis-Tagged Variants","Ships each variant with a stated hypothesis attached so LEDGER can measure something real."],
+  ["Template Library Curator","Builds the template library and retires what underperforms instead of letting it accumulate."],
+  ["Pillar-Cluster SEO Writer","Writes market- and neighborhood-granular SEO content on the pillar-cluster model, for humans first and retrieval second."],
+  ["Script Writer","Generates scripts for calls, video, and voicemail."],
+  ["Generation-Time Compliance Filter","Applies protected-class and steering constraints while writing, never through proxies, so no asset needs a compliance rewrite."],
+  ["Live Disclosure Attach","Pulls required disclosures from the user profile at generation, so nothing ships incomplete or goes stale when a profile changes."],
+  ["Structure-Preserving Localizer","Translates and localizes without losing the persuasive structure of the original."]
+ ]},
+
+{n:13,id:"CANVAS",title:"Brand & Creative Director",div:"mkt",reports:"ATLAS",autonomy:"L2",phase:"P1",phaseNote:"P1",
+ mandate:"Owns what the company looks like — the brand system, its enforcement across every asset any agent produces, and the content library.",
+ skills:[
+  ["Brand System Definition","Holds logo usage, palette, typography, imagery direction, and voice and tone as enforceable rules rather than a PDF."],
+  ["Pre-Publication Brand Review","Inspects every visual asset before publication and rejects off-brand work regardless of which agent produced it."],
+  ["Creative Generator","Produces ad visuals, social graphics, carousels, covers, one-pagers, decks, and video templates."],
+  ["Live Co-Branding","Populates per-user variants from profile records at render time, so credentials are never hardcoded and never wrong."],
+  ["Library Ops","Runs tagging, versioning, deduplication, expiry, and rights tracking."],
+  ["Format Spec Adapter","Ships one concept correctly sized to every placement from maintained per-channel format specs."],
+  ["Demographic-Implication Block","Blocks imagery direction that implies a preferred demographic."]
+ ]},
+
+{n:14,id:"RELAY",title:"Campaign Operations Manager",div:"mkt",reports:"ATLAS",autonomy:"L2",phase:"P2",phaseNote:"P2",
+ mandate:"Runs the send — audience construction, deliverability, timing, testing, and the unglamorous infrastructure that decides whether a campaign reaches an inbox at all.",
+ skills:[
+  ["Live Segment Builder","Builds audiences from CRM data with segment logic that stays live rather than freezing at export."],
+  ["Deliverability Stack","Owns domain authentication, sender reputation, list hygiene, bounce and complaint handling, and warmup for new domains and numbers."],
+  ["Carrier Registration Manager","Keeps messaging registration and carrier compliance current so campaigns are not silently filtered into nothing."],
+  ["Per-Contact Send Timing","Schedules against each contact’s optimal window instead of one blast hour."],
+  ["Statistical Test Runner","Runs A/B and multivariate tests against real significance thresholds and refuses to declare a winner on noise."],
+  ["Cross-Campaign Suppression","Prevents one contact from receiving three unrelated sends in a day."],
+  ["Cost-Attached Reporting","Reports per-campaign performance to LEDGER with cost attached."]
+ ]},
+
+{n:15,id:"BEACON",title:"Social Media Manager",div:"mkt",reports:"ATLAS",autonomy:"L2",phase:"P2",phaseNote:"P2",
+ mandate:"Runs every connected social account end to end — calendar, publishing, inbox, monitoring — and reports in actual pipeline rather than impressions.",
+ skills:[
+  ["Rolling Calendar","Maintains a forward calendar balanced across content pillars and flags gaps before they become dead weeks."],
+  ["Native Publisher","Publishes to every connected platform in native format at platform-specific optimal times."],
+  ["Social Inbox Worker","Works comments, DMs, and mentions in brand voice, routing genuine leads into the CRM instead of letting them die inside an app."],
+  ["Mention & Competitor Monitor","Watches brand mentions, review sites, and competitor activity, escalating anything needing a human within the hour."],
+  ["Format Adapter","Reshapes one concept into each platform’s native format rather than cross-posting identical content."],
+  ["Advocacy Kit Builder","Supplies every person on the team personalized, shareable assets."],
+  ["Pipeline-Sourced Reporting","Reports in leads and pipeline sourced from social, never vanity metrics."]
+ ]},
+
+{n:16,id:"CIRCUIT",title:"Automation Architect",div:"ops",reports:"ATLAS",autonomy:"L2",phase:"P1",phaseNote:"P1",
+ mandate:"Builds the workflows — a user describes an outcome, CIRCUIT designs, tests, deploys, and then monitors the automation that produces it.",
+ skills:[
+  ["NL-to-Workflow Compiler","Turns a plain-language outcome description into a working multi-step automation with branching, conditions, and delays."],
+  ["Historical Backtest","Replays a new workflow against historical data and reports what would have happened before activation."],
+  ["Live Automation Monitor","Watches every automation in the account for errors, infinite loops, conflicting triggers, and silent failures."],
+  ["Manual-Work Detector","Spots repeated manual work in user behavior and proposes the specific automation that eliminates it."],
+  ["Field Architecture Keeper","Maintains custom field architecture so the data model stays coherent as the company grows."],
+  ["Integration & Webhook Builder","Builds and maintains integrations and webhooks with outside systems."],
+  ["Plain-Language Documenter","Documents every workflow in plain language so the company is never hostage to whoever built it."],
+  ["Automation Retirement","Retires automations that no longer fire or no longer matter."]
+ ]},
+
+{n:17,id:"VAULT",title:"Document & File Intelligence",div:"ops",reports:"ATLAS",autonomy:"L3",phase:"P3",phaseNote:"P3",
+ mandate:"Turns the file store from a folder into a knowledge system — every document read, classified, extracted, linked, and retrievable by question rather than by filename.",
+ skills:[
+  ["Auto-Classifier","Files every upload to the correct record and category without a human choosing a folder."],
+  ["Field Extractor","Pulls structured data into the appropriate fields and flags low-confidence extractions instead of guessing."],
+  ["Cited Document Q&A","Answers questions across the document set with the source cited."],
+  ["Completeness Verifier","Checks completeness and legibility and tells FORGE what is genuinely still missing so nothing is requested twice."],
+  ["Version & Retention Manager","Tracks versions, expiry dates, and retention schedules."],
+  ["E-Signature Router","Handles signature routing, reminders, and completion tracking."],
+  ["Role-Level Redactor","Enforces document-level access control and redacts fields a role should not see."],
+  ["Legal-Review Interlock","Extracts, compares, and flags what changed between versions — but never performs legal review and never advises on the meaning or enforceability of an agreement.",true]
+ ]},
+
+{n:18,id:"LEDGER",title:"Analytics & Intelligence Officer",div:"ops",reports:"ATLAS",autonomy:"L1 · advisory",phase:"P1",phaseNote:"P1",
+ mandate:"Tells the truth, including when the truth is that a channel leadership is invested in is losing money.",
+ skills:[
+  ["Event-Stream Attribution","Runs full-funnel attribution from spend to closed revenue using the platform’s own event stream as ground truth rather than an ad platform’s self-report."],
+  ["Cost-Per-Deal Engine","Breaks cost per closed deal by source, campaign, person, and product, carrying AI operating cost as a real line item rather than an overhead footnote."],
+  ["Vintage Cohort Analyzer","Groups leads by vintage so this month is judged against the right maturity curve instead of against last month’s closings."],
+  ["Coaching Scorecard","Presents team performance as a coaching input naming the specific behavior to change, never as a leaderboard nobody acts on."],
+  ["Calibrated Forecaster","Forecasts pipeline with confidence bands calibrated on the company’s own conversion history."],
+  ["Anomaly Detector","Surfaces a dead source, collapsing contact rate, stalled stage, or two-sigma move within twenty-four hours, with evidence separated from hypothesis."],
+  ["Decision-First Brief","Writes the daily executive brief under four hundred words, honest enough to say when nothing needs a decision."]
+ ]},
+
+{n:19,id:"WARDEN",title:"Administration & Access Governance",div:"ops",reports:"ATLAS",autonomy:"L2",phase:"P2",phaseNote:"P2",
+ mandate:"Runs the back office of the platform itself — users, branches, roles, permissions, module activation, API credentials, and the security posture around all of it.",
+ skills:[
+  ["Day-One Provisioner","Creates a user with the correct role, branch, territory, and module access on their first day."],
+  ["Same-Day Revoker","Removes access the same day someone leaves, so orphaned accounts stay at zero."],
+  ["Permission Auditor","Audits the permission model and flags over-privileged accounts and access that no longer matches someone’s job."],
+  ["Org Structure Manager","Maintains branch and team structure, routing rules, and territory assignment as the org changes."],
+  ["Module Activation Control","Activates modules per branch, team, and seat so nobody pays for or is distracted by what they do not use."],
+  ["Credential Rotator","Manages API tokens and integration credentials with rotation reminders and immediate revocation on exposure."],
+  ["Anomalous Access Monitor","Escalates unusual export volume, off-hours logins, and bulk record access."],
+  ["Admin Audit Trail","Records who changed what, when, and why for every administrative change."]
+ ]},
+
+{n:20,id:"ABACUS",title:"Billing & Token Economy Manager",div:"ops",reports:"ATLAS",autonomy:"L1 · advisory on spend",phase:"P2",phaseNote:"P2",
+ mandate:"Makes the cost of running an agentic CRM legible and controllable, so a customer never discovers the bill at the end of the month.",
+ skills:[
+  ["Real-Time Consumption Meter","Tracks token and voice consumption live, attributed by agent, user, campaign, and branch."],
+  ["Threshold Early Warning","Forecasts month-end and warns at defined thresholds, well before a limit is reached."],
+  ["Honest Plan Recommender","Recommends the right plan and package from actual usage, including a downgrade when the data supports it — an engine that only ever upsells stops being believed."],
+  ["Waste Detector","Flags agent configurations burning tokens without producing outcomes and proposes the specific fix."],
+  ["Billing Lifecycle","Manages subscriptions, invoices, payment methods, and failed-payment recovery before service interruption."],
+  ["Cost-Per-Outcome Reporter","Publishes cost per outcome beside every agent’s performance, so each digital employee’s return is visible rather than assumed."],
+  ["Spend Cap Enforcer","Enforces caps per user, branch, and campaign, and surfaces the stop rather than continuing silently."]
+ ]},
+
+{n:21,id:"TALLY",title:"The Controller",div:"ops",reports:"ATLAS",autonomy:"L1 · advisory on money movement",phase:"P3",phaseNote:"P3",
+ mandate:"Computes and reconciles producer compensation — splits, tiers, caps, overrides, referral fees — and shows every producer their own numbers in real time.",
+ skills:[
+  ["Comp Structure Modeler","Expresses flat splits, tiered plans, caps, team overrides, referral and lead-source fees, and branch splits as computable rules."],
+  ["Close-Time Calculator","Computes expected compensation per file at the moment it closes."],
+  ["Expected-vs-Actual Reconciler","Reconciles what was computed against what was actually received and surfaces the delta."],
+  ["Producer Live View","Shows each producer their own pipeline value, earned-to-date, and progress toward the next tier — itself a performance lever, because visibility changes behavior."],
+  ["Obligation Tracker","Tracks referral fees and partner obligations owed in both directions and flags what is overdue."],
+  ["Receivables Gap Finder","Reconciles receivables against expected revenue and names the gap."],
+  ["Statement & Export Generator","Produces payout statements and the export the bookkeeper needs, in the format they need."],
+  ["Pre-Signoff Discrepancy Flag","Catches mismatches between contracted terms and actual settlement before anyone signs off on a payout."],
+  ["Money-Movement Interlock","Calculates, reconciles, and reports only — never moves money, never issues a payment, never files anything. Every payout requires human authorization, and TALLY is not a tax or accounting professional.",true]
+ ]},
+
+{n:22,id:"VANTAGE",title:"Market Analyst",div:"ops",reports:"ATLAS",autonomy:"L2",phase:"P3",phaseNote:"P3",
+ mandate:"The agent that knows what is happening outside the CRM — rates, inventory, absorption, pricing, competitor activity — and feeds it into the triggers and forecasts that depend on it.",
+ skills:[
+  ["Geo-Granular Market Feed","Tracks inventory, days on market, absorption, and price and rate movement at metro, county, ZIP, and neighborhood level."],
+  ["EMBER Trigger Feed","Pushes live conditions into EMBER’s trigger logic so a reactivation fires on a real change rather than an arbitrary calendar date."],
+  ["Competitor Watch","Monitors competitor ads, offers, positioning, hiring, and territory expansion."],
+  ["Client-Ready Report Builder","Produces market reports the team can actually send to clients and partners, refreshed automatically."],
+  ["Opportunity Finder","Cross-references the company’s own conversion data against market data to surface underserved territories, product gaps, and segment openings."],
+  ["Forecast Calibrator","Supplies external calibration to LEDGER so a pipeline projection accounts for conditions, not just history."],
+  ["Owner Market Brief","Briefs the owner on anything in the market that changes the plan."],
+  ["Estimate Labeler","Reports conditions with sources cited and never forecasts a future rate or value as fact — every projection is labeled an estimate with its assumptions visible.",true]
+ ]},
+
+{n:23,id:"HARBOR",title:"The Recruiter",div:"ppl",reports:"ATLAS",autonomy:"L2",phase:"P3",phaseNote:"P3",
+ mandate:"Runs the recruiting pipeline exactly like a sales pipeline, because for a brokerage — whose revenue is roughly headcount times average producer — that is precisely what it is.",
+ skills:[
+  ["Licensure-Based Sourcer","Sources candidates from public licensing data, production records, and market movement, ranked by fit against what this firm actually needs."],
+  ["Long-Horizon Cadence","Runs multi-touch recruiting sequences over months or years, because the firm still in contact wins the candidate when they finally move."],
+  ["Candidate Pipeline Governance","Tracks every candidate through a dedicated pipeline with stage governance, so nobody goes quiet unnoticed."],
+  ["Inbound Applicant Handler","Runs the screening conversation, scheduling, and packet delivery for inbound applicants."],
+  ["Earnings Case Builder","Builds the individualized case — what this candidate would earn here versus where they are — from their actual production."],
+  ["Onboarding Orchestrator","On acceptance, runs the licensing transfer checklist, systems access with WARDEN, workspace setup with COMPASS, and the first-90-days plan with HONE."],
+  ["In-Play Signal Monitor","Watches competitor departures and market moves that signal a candidate is in play."],
+  ["Source Effectiveness Tracker","Tracks which recruiting sources actually produce placements so spend follows results."],
+  ["Protected-Characteristic Interlock","Never screens, ranks, or filters on protected characteristics or proxies for them — sourcing criteria are production and licensure only, every candidate communication passes through AEGIS with employment-communication rules applied, and every hiring decision is human.",true]
+ ]},
+
+{n:24,id:"HONE",title:"The Coach",div:"ppl",reports:"ATLAS",autonomy:"L1 · advisory to the manager",phase:"P3",phaseNote:"P3",
+ mandate:"Reviews the work, identifies the specific behavior costing money, and builds the coaching plan around it — coaching the manager first, and the producer only through the manager.",
+ skills:[
+  ["Playbook Scorer","Reviews and scores every call and conversation against the firm’s own playbook, not a generic rubric."],
+  ["Top-Performer Differ","Identifies the specific behavior separating top performers from the rest using the firm’s own closed-won data rather than received wisdom."],
+  ["Coaching Plan Builder","Produces what this person does well, the one thing to change this week, and the drill that changes it."],
+  ["Call Library Curator","Indexes the firm’s own best examples by situation, so a new hire learns from their own top producer rather than a stock training video."],
+  ["Ramp Plan Tracker","Runs structured new-hire ramps with weekly milestones and honest early warning when someone is not tracking."],
+  ["Team Gap Detector","Distinguishes a team-wide training need from an individual performance problem."],
+  ["One-on-One Prep","Assembles the evidence a manager needs before the conversation."],
+  ["Compliance Pattern Escalator","Detects tone, pressure, and compliance patterns in conversations and escalates to AEGIS before they become a problem."],
+  ["Manager-Only Interlock","Advisory to the manager, never directly to the producer — produces no automated ranking that could drive an employment decision without human review, never scores on protected characteristics or proxies, and never makes or recommends a termination.",true]
+ ]}
+];
+
+/* ── render ─────────────────────────────── */
+const roster = document.getElementById("roster");
+const state = {div:"all", phase:"all", lock:false, q:""};
+
+const totalSkills = AGENTS.reduce((n,a)=>n+a.skills.length,0);
+const totalLocks  = AGENTS.reduce((n,a)=>n+a.skills.filter(s=>s[2]).length,0);
+document.getElementById("cSkills").textContent = totalSkills;
+document.getElementById("cLocks").textContent  = totalLocks;
+
+function agentCard(a){
+  const el = document.createElement("article");
+  el.className = "agent";
+  el.style.setProperty("--dc", `var(--${a.div})`);
+  const badges = [
+    `<span class="badge ${a.phase.toLowerCase()}">${a.phaseNote}</span>`,
+    `<span class="badge">${a.autonomy}</span>`,
+    `<span class="badge${a.reports !== "ATLAS" ? " exc" : ""}">&rarr; ${a.reports}</span>`,
+    a.plan ? `<span class="badge">In every plan</span>` : "",
+    a.seat ? `<span class="badge">One per seat</span>` : ""
+  ].join("");
+  el.innerHTML = `
+    <div class="a-head">
+      <span class="a-num">${String(a.n).padStart(2,"0")}</span>
+      <span class="a-name">${a.id}</span>
+      <span class="a-title">${a.title}</span>
+      <span class="a-badges">${badges}</span>
+    </div>
+    <p class="a-mandate">${a.mandate}</p>
+    <ul class="skills">
+      ${a.skills.map(s=>`<li class="${s[2] ? "lock" : ""}">
+        <span class="s-name">${s[0]}${s[2] ? `<span class="s-lock">interlock</span>` : ""}</span>
+        <span class="s-desc">${s[1]}</span>
+      </li>`).join("")}
+    </ul>`;
+  return el;
+}
+
+function matches(a){
+  if (state.div !== "all" && a.div !== state.div) return false;
+  if (state.phase !== "all" && a.phase !== state.phase) return false;
+  if (state.lock && !a.skills.some(s=>s[2])) return false;
+  if (state.q) {
+    const hay = [a.id, a.title, a.mandate, ...a.skills.flatMap(s=>[s[0], s[1]])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+
+function render(){
+  roster.textContent = "";
+  const shown = AGENTS.filter(matches);
+  ["cmd","rev","mkt","ops","ppl"].forEach(d=>{
+    const group = shown.filter(a=>a.div===d);
+    if (!group.length) return;
+    const skillN = group.reduce((n,a)=>n+a.skills.length,0);
+    const block = document.createElement("section");
+    block.className = "div-block";
+    block.style.setProperty("--dc", `var(--${d})`);
+    block.innerHTML = `<div class="div-head">
+      <h2 class="div-name">${DIV[d].name}</h2>
+      <span class="div-meta">${group.length} ${group.length===1?"agent":"agents"} &middot; ${skillN} skills &middot; ${DIV[d].note}</span>
+    </div>`;
+    group.forEach(a=>block.appendChild(agentCard(a)));
+    roster.appendChild(block);
+  });
+  const n = shown.reduce((t,a)=>t+a.skills.length,0);
+  document.getElementById("resultCount").textContent =
+    shown.length === AGENTS.length ? "" : `${shown.length} agents · ${n} skills`;
+  document.getElementById("empty").hidden = shown.length > 0;
+}
+
+document.querySelectorAll(".chip[data-filter]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const key = btn.dataset.filter, val = btn.dataset.value;
+    state[key] = val;
+    document.querySelectorAll(`.chip[data-filter="${key}"]`).forEach(b=>
+      b.setAttribute("aria-pressed", String(b.dataset.value === val)));
+    render();
+  });
+});
+
+const lockBtn = document.getElementById("lockOnly");
+lockBtn.addEventListener("click", ()=>{
+  state.lock = !state.lock;
+  lockBtn.setAttribute("aria-pressed", String(state.lock));
+  render();
+});
+
+document.getElementById("search").addEventListener("input", e=>{
+  state.q = e.target.value.trim().toLowerCase();
+  render();
+});
+
+const themeBtn = document.getElementById("themeToggle");
+themeBtn.addEventListener("click", ()=>{
+  const dark = document.documentElement.getAttribute("data-theme") === "dark"
+    || (!document.documentElement.hasAttribute("data-theme")
+        && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+  themeBtn.setAttribute("aria-pressed", String(!dark));
+});
+
+render();
+</script>
+</body>
+</html>
