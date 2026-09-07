@@ -41,7 +41,7 @@ SCOUT operates on the intake edge of the CRM V3 product surface — Leads, Conta
 - **Source lineage** — every record carries where it came from; SCOUT is the only agent that writes this field.
 - **Enrichment data** — property characteristics, ownership tenure, and position estimates are property-data derived, not credit-derived, and must always be labeled as estimates.
 - **Routing state** — territory, language, specialty, and real-time capacity, refreshed continuously so a lead never lands with someone off shift.
-- **Downstream dependents:** PULSE (scoring), ECHO (conversation), TEMPO (booking) all read the record SCOUT produces.
+- **Downstream dependents:** PULSE (scoring), ECHO (conversation), TEMPO (booking) all read the record SCOUT produces, and SCOUT's intake event is the trigger for VOX's speed-to-lead outbound.
 
 ## 5. Hard Rules
 

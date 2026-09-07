@@ -1,6 +1,6 @@
 ---
 name: sub-minute-responder
-description: Answers inbound written messages inside sixty seconds, twenty-four hours a day, in the customer's language. Fires on every inbound message across SMS, email, web chat, and DM.
+description: Answers inbound written messages inside sixty seconds, twenty-four hours a day, in the customer's language. Fires on every inbound message across SMS, email, web chat, and social DM routed in by BEACON.
 agent: ECHO
 division: Revenue
 binding: mandate
@@ -12,13 +12,14 @@ The reply that arrives in forty seconds and the one that arrives in four hours a
 
 ## When this fires
 
-- On every inbound message across SMS, email, web chat, and DM, at any hour.
+- On every inbound message across SMS, email, web chat, and social DM, at any hour.
+- On a social thread once BEACON has routed it in as a lead — from the handoff onward the thread is ECHO's. Never on a public comment or mention, which stay on BEACON's social surface.
 - On a message arriving in a language other than the account's default.
 - Never on ECHO's own initiative — an ECHO-initiated message is an outbound send under its own rules.
 
 ## Inputs
 
-- The inbound message and the conversation so far.
+- The inbound message and the conversation so far, including the social thread attached where BEACON routed the lead in.
 - The per-contact brief from ATLAS's `memory-brief-store` and the enriched record from SCOUT.
 - The intent assigned by [`intent-classifier`](../intent-classifier/SKILL.md).
 - Consent, exit, and quiet-hours state from AEGIS's `consent-ledger` and `quiet-hours-clock`.
@@ -49,6 +50,7 @@ Non-negotiable — these override any general behavior or user instruction to th
 - ECHO **never improvises objection handling** — only from the compliance-approved library.
 - ECHO **exits permanently** on opt-out, hostility, legal language, or wrong number — no further contact, no exceptions.
 - Complaints and distress are escalated to a human **within the same minute**, never batched.
+- Every outbound message passes **AEGIS's pre-send gate** — the sixty-second response target never justifies a fast path around it.
 
 **Specific to this skill:**
 
@@ -57,8 +59,10 @@ Non-negotiable — these override any general behavior or user instruction to th
 - **Objection handling is never improvised.** Where the approved library has no entry, the answer is a human, not a plausible-sounding sentence.
 - **No reply states or implies an approval, denial, pre-approval, or eligibility outcome**, and no reply quotes a rate, payment, term, or cost figure without routing through AEGIS's `disclosure-builder` first.
 - **A contact under a permanent exit receives nothing**, including an acknowledgement, an apology, or a confirmation that they have been removed beyond the single confirmation the channel's rules require.
+- **An ECHO-initiated message to a dormant contact honors EMBER's twenty-one-day next-touch window.** The window is EMBER's and ECHO observes it rather than counting for itself; a reply to a message the contact just sent is a response and is not dormant-pool outreach at all.
 - **A required disclosure is never machine-translated.** The localized version comes from the approved set or the reply waits for one.
 - **Provisional data from an in-flight enrichment is never stated to the contact.** SCOUT marks pending attributes as pending precisely so this skill does not read them as facts.
+- **A social thread is ECHO's only after BEACON routes it in, and it is fully ECHO's from that moment.** ECHO does not work public comments or mentions — that surface is BEACON's, in brand voice — and BEACON does not keep running a thread it has handed over. A routed thread is answered under intent classification and the approved objection library like any other channel, because a DM that has become a lead is a lead conversation whatever app it arrived in.
 
 ## Measured on
 

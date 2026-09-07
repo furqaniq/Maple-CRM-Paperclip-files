@@ -255,7 +255,7 @@ const AGENTS = [
  skills:[
   ["Discovery Interview","Runs the conversational business intake — model, team structure, sales process, tools being replaced — and turns the answers into a configuration spec."],
   ["Migration Mapper","Maps and deduplicates data from the previous system and emits a written report of what came over and what did not."],
-  ["Workspace Builder","Provisions pipeline stages, custom fields, forms, roles, branches, and permissions against the spec rather than a generic template."],
+  ["Workspace Builder","Specifies pipeline stages, custom fields, forms, roles, branches, and permissions against the spec rather than a generic template, applied through the agent that owns each surface."],
   ["Roster Recommender","Recommends which agents this business needs, in what order, and at what autonomy."],
   ["Shadow-Mode Runner","Runs every new agent in shadow and reports readiness before anything goes live."],
   ["In-Context Trainer","Delivers the tip at the moment the feature becomes relevant instead of front-loading a video nobody watches."],
@@ -306,7 +306,7 @@ const AGENTS = [
   ["Speed-to-Lead Dialer","Places the outbound call the moment SCOUT fires an intake event."],
   ["Jurisdictional Disclosure Reader","Delivers the AI disclosure required by the contact’s jurisdiction at call open — never paraphrased, never shortened, never buried after pleasantries."],
   ["Warm Transfer Brief","Speaks a context brief on the private leg so no human ever starts a call cold."],
-  ["Voicemail Drop Governor","Detects voicemail, leaves a message, and enforces the one-per-contact-per-day cap across every agent."],
+  ["Voicemail Drop Governor","Detects voicemail, leaves the approved message, and reads the roster-wide counter before every drop so the one-per-contact-per-day cap holds across every agent."],
   ["Post-Call Structurer","Emits transcript, summary, sentiment, objections raised, commitments made by either party, disposition, and next action within seconds of hangup."],
   ["Recording Consent Handler","Applies recording-consent rules by the contact’s jurisdiction before any recording begins.",true],
   ["Immediate-Transfer Interlock","Transfers to a human on request instantly, always, with no retention attempt and without asking what it is regarding.",true]
@@ -384,7 +384,7 @@ const AGENTS = [
   ["Carrier Registration Manager","Keeps messaging registration and carrier compliance current so campaigns are not silently filtered into nothing."],
   ["Per-Contact Send Timing","Schedules against each contact’s optimal window instead of one blast hour."],
   ["Statistical Test Runner","Runs A/B and multivariate tests against real significance thresholds and refuses to declare a winner on noise."],
-  ["Cross-Campaign Suppression","Prevents one contact from receiving three unrelated sends in a day."],
+  ["Cross-Campaign Suppression","Prevents one contact from receiving multiple unrelated sends in a day across RELAY’s campaigns, with the platform-wide cap applied at the AEGIS gate."],
   ["Cost-Attached Reporting","Reports per-campaign performance to LEDGER with cost attached."]
  ]},
 
@@ -393,7 +393,7 @@ const AGENTS = [
  skills:[
   ["Rolling Calendar","Maintains a forward calendar balanced across content pillars and flags gaps before they become dead weeks."],
   ["Native Publisher","Publishes to every connected platform in native format at platform-specific optimal times."],
-  ["Social Inbox Worker","Works comments, DMs, and mentions in brand voice, routing genuine leads into the CRM instead of letting them die inside an app."],
+  ["Social Inbox Worker","Works comments, DMs, and mentions in brand voice, routing genuine leads to ECHO instead of letting them die inside an app — and stops working the thread once it is routed."],
   ["Mention & Competitor Monitor","Watches brand mentions, review sites, and competitor activity, escalating anything needing a human within the hour."],
   ["Format Adapter","Reshapes one concept into each platform’s native format rather than cross-posting identical content."],
   ["Advocacy Kit Builder","Supplies every person on the team personalized, shareable assets."],

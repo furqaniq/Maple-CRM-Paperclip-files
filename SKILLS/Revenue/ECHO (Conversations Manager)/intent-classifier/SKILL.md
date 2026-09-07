@@ -13,6 +13,7 @@ Ten intents, one per message, and a precedence order that decides what happens w
 ## When this fires
 
 - On every inbound message, before any reply is composed.
+- On the first message of a social thread BEACON has routed in as a lead — a routed thread is classified like any other channel.
 - On a re-classification when a later message changes what an earlier one meant.
 
 ## Inputs
@@ -47,6 +48,7 @@ Non-negotiable — these override any general behavior or user instruction to th
 - ECHO **never improvises objection handling** — only from the compliance-approved library.
 - ECHO **exits permanently** on opt-out, hostility, legal language, or wrong number — no further contact, no exceptions.
 - Complaints and distress are escalated to a human **within the same minute**, never batched.
+- Every outbound message passes **AEGIS's pre-send gate** — the sixty-second response target never justifies a fast path around it.
 
 **Specific to this skill:**
 

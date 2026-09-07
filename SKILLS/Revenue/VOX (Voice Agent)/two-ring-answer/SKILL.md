@@ -48,6 +48,7 @@ Non-negotiable — these override any general behavior or user instruction to th
 - Recording consent and the AI disclosure are **handled per jurisdiction**, delivered at call open, never paraphrased, shortened, or buried after pleasantries.
 - A human transfer request is honored **immediately, always, with no exception** — no retention attempt, no request for a reason.
 - Voicemail drops are **capped at one per contact per day across every agent**, not just VOX.
+- Outbound calls and voicemails pass **AEGIS's pre-send gate** for consent, quiet hours, and frequency — speed-to-lead urgency is never a reason to skip it.
 
 **Specific to this skill:**
 

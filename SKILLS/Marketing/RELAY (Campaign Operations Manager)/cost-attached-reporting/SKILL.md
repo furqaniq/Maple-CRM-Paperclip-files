@@ -46,8 +46,9 @@ Non-negotiable — these override any general behavior or user instruction to th
 **Inherited from RELAY — these apply to every RELAY skill, per `AGENTS.md` §5:**
 
 - A/B and multivariate winners are declared only on a **real statistical threshold**. An inconclusive test is reported as inconclusive; noise is never dressed as a result.
-- **Cross-campaign suppression is enforced** — no contact receives multiple unrelated sends in a day, no matter which campaign or which agent owns each one.
+- **Cross-campaign suppression is enforced within the campaign surface** — no contact receives multiple unrelated sends in a day across RELAY's campaigns. Platform-wide frequency caps are AEGIS's, not RELAY's.
 - Carrier and messaging compliance registration is maintained continuously. A campaign is **never sent through a lapsed registration**, including to force deliverability against a deadline.
+- Clearing RELAY's own campaign suppression is **never a substitute for AEGIS's pre-send gate** — consent, quiet hours, and platform-wide frequency caps are checked there, on every send.
 
 **Specific to this skill:**
 

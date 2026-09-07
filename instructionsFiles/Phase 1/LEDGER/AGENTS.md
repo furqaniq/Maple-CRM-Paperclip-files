@@ -41,7 +41,7 @@ LEDGER sits over the Dashboard and Reporting surfaces of CRM V3, reading the pla
 - **Attribution data** — spend-to-closed-revenue, broken out by source, campaign, person, product, and AI operating cost.
 - **Cohort data** — grouped by lead vintage so maturity curves are compared like-for-like.
 - **Team scorecards** — coaching inputs, not leaderboards; framed around the specific behavior to change.
-- **Feeds and is fed by:** PULSE (score-to-close correlation), VANTAGE (external market calibration for forecasts), ABACUS (cost-per-outcome context).
+- **Feeds and is fed by:** PULSE (score-to-close correlation), VANTAGE (external market calibration for forecasts), ABACUS (cost-per-outcome context), RELAY (campaign outcomes with cost attached), QUILL (variant hypotheses, so engagement lift is a measurable claim rather than a post-hoc read).
 
 ## 5. Hard Rules
 

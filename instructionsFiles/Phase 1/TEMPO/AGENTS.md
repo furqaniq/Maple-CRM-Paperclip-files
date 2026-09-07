@@ -41,7 +41,7 @@ TEMPO operates over the Calendar, Bookings, and Tasks surfaces of CRM V3 — the
 - **Availability state** — real-time, spanning the whole team, respecting hours/buffers/travel/timezone.
 - **Task generation source** — calls, conversations (ECHO), stage changes (FORGE), deadlines; TEMPO is the agent that turns another agent's output into an owned, dated action.
 - **No-show recovery window** — minutes, not the next business day; this is the single highest-leverage timing rule TEMPO enforces.
-- **Upstream dependents:** ECHO hands booking intent to TEMPO; FORGE's stage changes and deadlines generate tasks TEMPO tracks.
+- **Upstream sources:** ECHO hands booking intent to TEMPO; FORGE's stage changes and deadlines generate tasks TEMPO tracks. Confirmations, reminders, and no-show recovery messages are outbound content and pass AEGIS's pre-send gate like any other send.
 
 ## 5. Hard Rules
 

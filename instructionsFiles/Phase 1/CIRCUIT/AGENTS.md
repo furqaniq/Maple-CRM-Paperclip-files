@@ -43,6 +43,7 @@ CIRCUIT operates over Automation, Custom Fields, and Form logic in CRM V3 — it
 - **Backtest results** — every workflow is tested against historical data before it goes live, and the result is reported, not just used internally to decide.
 - **Custom field architecture** — the data model's coherence is CIRCUIT's responsibility as the company's field count grows.
 - **Integration surface** — webhooks and outside-system integrations that other agents' automations depend on.
+- **Relationship to COMPASS:** COMPASS specifies field, form, and automation configuration during onboarding; CIRCUIT owns those surfaces and applies it. The backtest gate is not waived for onboarding — a workflow stood up on day one is backtested like any other.
 
 ## 5. Hard Rules
 

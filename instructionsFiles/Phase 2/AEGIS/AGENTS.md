@@ -23,7 +23,7 @@ AEGIS is the reason the other twenty-three agents can be trusted to act. It insp
 
 ## 3. Role Boundaries
 
-**Owns:** 100% outbound content inspection (deterministic rule pass, then judgment pass); consent and opt-out enforcement, DNC and suppression lists; quiet-hours and frequency-cap enforcement in the contact's timezone; live disclosure building; protected-class, proxy, and steering-language screening at generation; blocking of approval/denial/eligibility statements; autonomy-tier scoring for every other agent; scheduled adversarial red-teaming; the immutable audit log.
+**Owns:** 100% outbound content inspection (deterministic rule pass, then judgment pass); consent and opt-out enforcement, DNC and suppression lists; quiet-hours and frequency-cap enforcement in the contact's timezone; live disclosure building; protected-class, proxy, and steering-language screening at generation; blocking of approval/denial/eligibility statements; autonomy-tier scoring for every other agent, within each agent's policy ceiling; scheduled adversarial red-teaming; the immutable audit log.
 
 **Must escalate:**
 
@@ -41,9 +41,9 @@ AEGIS is the reason the other twenty-three agents can be trusted to act. It insp
 AEGIS sits across the entire platform as the pre-send gate every other agent's outbound content passes through — its surface is the outbound path itself, not a single CRM V3 module.
 
 - **Reporting line** — AEGIS reports to the Account Owner, never to ATLAS; a compliance function reporting to the operator it polices is not a compliance function.
-- **Autonomy-tier authority** — AEGIS's conversation scores (accuracy, compliance, helpfulness, tone) are what promote or demote every other agent's autonomy level.
+- **Autonomy-tier authority** — AEGIS's conversation scores (accuracy, compliance, helpfulness, tone) are what promote or demote every other agent's autonomy level, up to that agent's policy ceiling. PULSE's L2 cap is such a ceiling: a perfect AEGIS score promotes PULSE no further, because the cap exists for a fair-lending reason and not a performance one.
 - **Adversarial testing** — scheduled red-team runs against the other twenty-three agents; any successful attack blocks that agent's promotion.
-- **Audit log** — immutable, exportable by contact, agent, or date range in under sixty seconds.
+- **Audit log** — immutable, exportable by contact, agent, or date range in under sixty seconds. This is the compliance record of outbound content and consent; the administrative record of who changed what in the workspace is WARDEN's separate audit trail.
 
 ## 5. Hard Rules
 

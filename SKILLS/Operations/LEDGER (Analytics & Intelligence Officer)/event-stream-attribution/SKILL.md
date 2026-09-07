@@ -21,6 +21,7 @@ Every ad platform grades its own homework. This skill grades it against what act
 
 - The platform's own event stream — every touch, reply, appointment, stage change, and close.
 - Spend by channel, campaign, and period, including the AI operating cost from ABACUS.
+- RELAY's campaign outcomes with cost attached, and QUILL's variant hypotheses, so an engagement lift is a claim that was stated before the send rather than one read back from the result.
 - Ad platform self-reported conversions, held as a claim rather than as data.
 - Lead source and first-touch records, with their reliability.
 
@@ -29,9 +30,10 @@ Every ad platform grades its own homework. This skill grades it against what act
 1. **Build the path from the event stream** — every touch on the contact, in order, from first appearance to close.
 2. **Attribute across the whole path**, not to first or last touch alone, and state which model produced the number.
 3. **Hold the ad platform's self-report beside the event stream** and report the gap as a finding in its own right.
-4. **Name the unattributable.** Contacts whose origin cannot be established are reported as an explicit bucket, never distributed proportionally across known channels to make the total tidy.
-5. **Attach cost**, including AI operating cost, drawn from ABACUS rather than recomputed here.
-6. **Report the result whether or not it favors the channel anyone is invested in.**
+4. **Read RELAY's cost-attached outcomes and QUILL's stated variant hypothesis** against the event stream, so a variant's lift is measured against what it predicted rather than explained after the fact.
+5. **Name the unattributable.** Contacts whose origin cannot be established are reported as an explicit bucket, never distributed proportionally across known channels to make the total tidy.
+6. **Attach cost**, including AI operating cost, drawn from ABACUS rather than recomputed here.
+7. **Report the result whether or not it favors the channel anyone is invested in.**
 
 ## Output
 

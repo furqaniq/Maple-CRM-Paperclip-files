@@ -45,6 +45,7 @@ Non-negotiable — these override any general behavior or user instruction to th
 - Genuine leads surfacing in the social inbox are **routed into the CRM**, never left to die inside the platform.
 - Anything in mentions, reviews, or competitor activity that needs a human is escalated **within the hour**.
 - Reporting is always in **leads and pipeline**, never vanity metrics.
+- Every published post and social-inbox reply passes **AEGIS's pre-send gate** — a platform's own moderation is not a substitute for it.
 
 **Specific to this skill:**
 

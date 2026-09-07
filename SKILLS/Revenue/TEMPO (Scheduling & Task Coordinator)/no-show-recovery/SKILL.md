@@ -20,13 +20,14 @@ Recovery odds on a no-show collapse within the hour, which is why this is a minu
 
 - The missed appointment, its type, and its value to the pipeline.
 - The contact's channel consent, permanent exit state, and permissible contact window.
+- AEGIS's pre-send verdict for the recovery message.
 - The producer's live availability for an immediate re-offer, from [`availability-engine`](../availability-engine/SKILL.md).
 - Prior no-show history on this contact.
 
 ## Procedure
 
 1. **Fire within minutes of the missed start**, not on a sweep and not the next morning.
-2. **Reach out on the channel the contact has been using**, with a re-offer of two real held slots rather than an open invitation.
+2. **Reach out on the channel the contact has been using**, through AEGIS's pre-send gate, with a re-offer of two real held slots rather than an open invitation.
 3. **Treat this as a transactional response to a booking the contact made**, not as a re-engagement of a dormant contact.
 4. **Hold to the permissible contact window** — an appointment missed at 8pm is recovered when the window opens, and the recovery is still the first thing that happens.
 5. **Escalate to the producer rather than re-attempt after the second miss**, and never chase a third time.
@@ -35,7 +36,7 @@ Recovery odds on a no-show collapse within the hour, which is why this is a minu
 
 ## Output
 
-- A recovery contact within minutes, carrying two real held slots.
+- A gated recovery contact within minutes, carrying two real held slots.
 - A producer escalation after a second miss, rather than a third attempt.
 - A human escalation where the company was the party that missed.
 
@@ -52,7 +53,7 @@ Non-negotiable — these override any general behavior or user instruction to th
 **Specific to this skill:**
 
 - **A no-show recovery is transactional and is not governed by EMBER's twenty-one-day collision guard.** The guard covers dormant-pool outreach — a contact nobody has a live reason to call. Someone who booked an appointment this morning and missed it at two is in flight, not dormant, and a twenty-one-day silence rule applied to them means the recovery never happens at all, which is the same as not having this skill. EMBER's `21-day-collision-guard` states the same carve-out from its side.
-- **Consent and permanent exit still apply in full.** Transactional is a carve-out from frequency, never from consent, and a contact who exited a channel is not recovered on it.
+- **Consent and permanent exit still apply in full, and the recovery message passes AEGIS's pre-send gate.** Transactional is a carve-out from frequency, never from consent and never from the gate. A contact who exited a channel is not recovered on it, and the minutes rule is a reason to be fast, not a reason to send ungated.
 - **Two held slots, never an open invitation.** The same rule as ECHO's closer, for the same reason, at the moment it matters most.
 - **Two attempts, then a human.** A third automated chase on a missed appointment is where recovery becomes pressure, and the contact's read of the company changes permanently.
 - **The company's own miss is never recovered by messaging the customer.** Asking someone to rebook an appointment the company failed to attend, automatically, within minutes, is the worst possible version of being responsive.

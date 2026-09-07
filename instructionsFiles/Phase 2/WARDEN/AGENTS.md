@@ -42,7 +42,8 @@ WARDEN operates over the Profile, Company, Branches, Users, Roles, Modules, and 
 - **Provisioning state** — role, branch, territory, and module access, set correctly on day one, revoked same-day on departure.
 - **Permission model** — audited continuously, not just at onboarding, for drift as jobs and org structure change.
 - **API credentials** — rotation reminders plus immediate revocation on exposure, never batched with routine rotation.
-- **Audit trail** — every administrative change recorded with who, when, and why.
+- **Audit trail** — every administrative change recorded with who, when, and why. This is the administrative record of workspace changes; the immutable compliance record of outbound content and consent is AEGIS's separate audit log.
+- **Feeds and is fed by:** COMPASS specifies role, branch, permission, and module configuration during onboarding and WARDEN is the agent that provisions it and records it; HARBOR hands WARDEN systems access for each accepted hire as part of the onboarding sequence.
 
 ## 5. Hard Rules
 

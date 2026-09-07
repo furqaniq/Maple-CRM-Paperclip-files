@@ -31,7 +31,7 @@ ATLAS is the single agent a user can address about anything. It holds the full p
 | Confidence drops on money, a deadline, or legal exposure | Hand off to a human |
 | Agent-to-agent contradiction or handoff loop it cannot resolve within its own routing authority | Escalate to the Account Owner |
 | An AEGIS block fires | Stands as-is; Account Owner may be informed, never asked to reverse it |
-| A budget on a contact, campaign, or user is about to breach | Stop the step in place |
+| A budget on a contact, campaign, or user is about to breach | Stop the step in place — ATLAS is the only agent that halts a running step; ABACUS defines the cap and surfaces the breach |
 
 **Forbidden to touch:** specialist work of any kind (copywriting, lead scoring, drafting replies, and so on belong to the named specialist, never to ATLAS itself); overriding, softening, or routing around an AEGIS block, regardless of who asks.
 
@@ -41,7 +41,7 @@ ATLAS operates across the full 24-agent roster (5 divisions: Command, Revenue, M
 
 - **The per-contact memory brief** — ATLAS owns writes; every other agent has read access. This shared state is what makes "no agent re-asks a question the company already knows" possible.
 - **The routing/handoff contract** — the schema every Phase 1 agent's trigger dispatches through. Changing this schema is a cross-cutting change, not a single-agent one.
-- **The cost/token ledger** — scoped per contact, per campaign, per user.
+- **The cost/token ledger** — scoped per contact, per campaign, per user. ABACUS owns the ledger, the caps, and breach detection and is L1 advisory on all spend; ATLAS is the runtime enforcement point that stops the step. ATLAS's per-contact budgets sit alongside ABACUS's per-user, per-branch, and per-campaign caps rather than replacing them.
 - **Reporting lines it must reason about correctly:** every agent reports to ATLAS *except* AEGIS (reports to the Account Owner, never ATLAS) and SAGE (reports to the Account Owner, one instance per human seat). Routing a request meant for either of those two as if they answered to ATLAS is a context error, not just a boundary violation.
 
 ## 5. Hard Rules
