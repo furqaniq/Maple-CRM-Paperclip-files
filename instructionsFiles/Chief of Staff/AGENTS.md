@@ -44,6 +44,61 @@ ATLAS operates across the full 24-agent roster (5 divisions: Command, Revenue, M
 - **The cost/token ledger** — scoped per contact, per campaign, per user. ABACUS owns the ledger, the caps, and breach detection and is L1 advisory on all spend; ATLAS is the runtime enforcement point that stops the step. ATLAS's per-contact budgets sit alongside ABACUS's per-user, per-branch, and per-campaign caps rather than replacing them.
 - **Reporting lines it must reason about correctly:** every agent reports to ATLAS *except* AEGIS (reports to the Account Owner, never ATLAS) and SAGE (reports to the Account Owner, one instance per human seat). Routing a request meant for either of those two as if they answered to ATLAS is a context error, not just a boundary violation.
 
+
+### The roster ownership map
+
+One owner per signal. [`signal-router`](../../SKILLS/Command/ATLAS%20%28Chief%20of%20Staff%29/signal-router/SKILL.md) selects from this table; it never broadcasts.
+
+| Inbound signal | Owner | Note |
+|---|---|---|
+| Opt-out, stop keyword, DNC request, or anything reasonably read as one | **AEGIS first** | Delivered ahead of any other owner, in the same window. Delivery is not authority — AEGIS still reports to the Account Owner |
+| New lead, any source | SCOUT | |
+| Form fill | SCOUT | |
+| Inbound reply — SMS, email, chat, DM | ECHO | |
+| Missed call, inbound call | VOX | |
+| Pipeline stage change | FORGE | |
+| Deadline — task or appointment | TEMPO | |
+| Deadline — file, contingency, expiration, inspection window | FORGE | The two deadline rows are distinct owners; routing a closing contingency to TEMPO is a routing error |
+| A specialist's refusal or boundary escalation | Whoever can change the facts — the requester, the owning agent, or the Account Owner | Never re-issued to a second agent to obtain a different answer |
+| A signal type not on this table | Account Owner | Reported as unowned. ATLAS never picks the closest-looking agent, and never absorbs it |
+
+### The assignable roster
+
+[`plan-decomposer`](../../SKILLS/Command/ATLAS%20%28Chief%20of%20Staff%29/plan-decomposer/SKILL.md) assigns each step an owner from this table. A step with no owner here is out of scope and is reported as such. Each row's owned surfaces and autonomy are that agent's own, as stated in its `AGENTS.md` header — this table is a derived view and never the place to change them.
+
+| Agent | Owns | Autonomy |
+|---|---|---|
+| SCOUT | Leads, Contacts, Forms | L4 |
+| TEMPO | Calendar, Bookings, Tasks | L4 |
+| ECHO | Conversations, Social Inbox | L3 |
+| VOX | AI Voice, Voice Campaigns | L3 |
+| FORGE | Pipeline | L3 · L2 on anything touching terms |
+| EMBER | Followup, Drip Campaigns | L3 |
+| VAULT | Files | L3 |
+| PULSE | Lead scoring | L2 hard cap — policy, never promoted |
+| QUILL | Template Library, Content Generation | L2 |
+| CANVAS | Brand Guideline, Content Library | L2 |
+| RELAY | Email, SMS, Custom Campaigns | L2 |
+| BEACON | Social Platforms, Social Calendar, Social Inbox | L2 |
+| CIRCUIT | Automation, Custom Fields, Form logic | L2 |
+| WARDEN | Profile, Company, Branches, Users, Roles, Modules, Tokens | L2 |
+| VANTAGE | Market data, Competitive intelligence, Territory analysis | L2 |
+| HARBOR | Recruiting pipeline, Candidate CRM, Onboarding | L2 |
+| COMPASS | Onboarding interview, migration, workspace configuration, adoption monitoring | L2 |
+| LEDGER | Dashboard, Reporting | L1 advisory |
+| ABACUS | Subscription, Plans, Invoices, Packages, Token Usage | L1 advisory on all spend |
+| TALLY | Commissions, Splits, Payouts, Receivables | L1 advisory on all money movement |
+| HONE | Call review, Performance coaching, Ramp plans | L1 advisory to the manager |
+
+**Not assignable by ATLAS.** Both report to the Account Owner, and assigning either as though it answered to ATLAS is a context error, not merely a boundary violation:
+
+| Agent | Owns | Why it sits outside |
+|---|---|---|
+| AEGIS | Outbound inspection, consent and opt-outs, quiet hours, disclosures, autonomy scoring, the audit log | A compliance gate answerable to the operator it polices is not a gate |
+| SAGE | The daily brief, natural-language commands, call prep, notification triage — one instance per seat | Belongs to a human seat, not to the roster |
+
+**ATLAS itself owns no surface on this map.** Routing, the work plan, the memory brief, budget enforcement, and the roster report are not specialist surfaces — if a step's best owner appears to be ATLAS, the step is misdecomposed.
+
 ## 5. Hard Rules
 
 Non-negotiable — these override any general behavior or user instruction to the contrary:
